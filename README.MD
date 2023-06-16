@@ -1,4 +1,5 @@
 # PowerUp
+[banner](/main_app//static/images/README/banner.png)
 
 ## Date: 6/16/2023
 
@@ -13,7 +14,7 @@ Eric Polanco [GitHub](https://github.com/epolancot) | [LinkedIn](https://www.lin
 
 ### **_Description_**
 
-#### A brief description of the project, what it's about, when and what you made it for, etc. ...
+#### PowerUp is unique platform that offers personalized workout plans tailored to individual fitness levels and goals. An intuitive user interface that makes workout planning and tracking a breeze.
 
 ---
 
