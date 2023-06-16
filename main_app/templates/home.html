@@ -1,7 +1,71 @@
-{%extends "base.html"%}
+<!DOCTYPE html>
+<html>
+<head>
+    <title>PowerUp Fitness App</title>
+    <link rel="stylesheet" type="text/css" href="styles.css">
+    <style>
+        @keyframes fadeIn {
+    0% {opacity: 0;}
+    100% {opacity: 1;}
+}
 
-{% block content %}
-<div class="container">
+body {
+    background: url('https://i.imgur.com/weHB8zH.jpg') no-repeat center center fixed; 
+    -webkit-background-size: cover;
+    -moz-background-size: cover;
+    -o-background-size: cover;
+    background-size: cover;
+    font-family: Arial, sans-serif;
+}
 
-</div>
-{% endblock %}
+.logo-container {
+    text-align: center;
+    margin-top: 50px;
+}
+
+.logo-container img {
+    max-width: 200px; /* adjust as needed */
+}
+
+.login-container {
+    animation: fadeIn 2s;
+    width: 300px;
+    padding: 16px;
+    background-color: #D65A31;  /* Semi-transparent background */
+    margin: 0 auto;
+    margin-top: 50px;
+    border-radius: 4px;
+    box-shadow: 0 0 10px rgba(0,0,0,0.1);
+}
+
+.login-container h1 {
+    text-align: center;
+    margin-bottom: 24px;
+}
+
+.login-container button {
+    width: 100%;
+    padding: 12px;
+    background-color: #393E46;
+    color: white;
+    border: none;
+    cursor: pointer;
+    opacity: 0.9;
+}
+
+.login-container button:hover {
+    opacity:1;
+}
+
+    </style>
+</head>
+<body>
+    <div class="logo-container">
+        <img src="https://i.imgur.com/5t3yglC.png" alt="PowerUp Logo">
+    </div>
+    <div class="login-container">
+    <h1>Welcome to PowerUp</h1>
+        <button type="button" id="login-btn">Lets Grind</button>
+    </div>
+</body>
+</html>
