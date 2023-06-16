@@ -1,0 +1,36 @@
+{%extends "base.html"%}{% block content %}
+
+
+<form action="{% url 'workout_create' %}" method="POST" onsubmit="assignCategory()">
+  <label for="date">Date:</label>
+  <input type="date" name="date" id="date">
+
+  <input type="hidden" name="category" value="">
+
+  <label for="abs">Abs</label>
+  <input type="checkbox" name="abs" id="abs" value="10">
+
+  <label for="arms">Arms</label>
+  <input type="checkbox" name="arms" id="arms" value="8">
+
+  <label for="back">Back</label>
+  <input type="checkbox" name="back" id="back" value="12">
+
+  <label for="calves">Calves</label>
+  <input type="checkbox" name="calves" id="calves" value="14">
+
+  <label for="cardio">Cardio</label>
+  <input type="checkbox" name="cardio" id="cardio" value="15">
+
+  <label for="chest">Chest</label>
+  <input type="checkbox" name="chest" id="chest" value="11">
+
+  <label for="legs">Legs</label>
+  <input type="checkbox" name="legs" id="legs" value="9">
+
+  <label for="shoulders">Shoulders</label>
+  <input type="checkbox" name="shoulders" id="shoulders" value="13">
+</form>
+
+
+{% endblock %}

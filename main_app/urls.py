@@ -7,5 +7,6 @@ urlpatterns = [
     path("accounts/signup/", views.signup, name="signup"),
     path("workouts/", views.workouts_index, name="index"),
     path("workouts/<int:workout_id>/", views.workouts_detail, name="detail"),
-    path("workout/create/", views.WorkoutCreate.as_view(), name="workout_create"),
+    path("workouts/new/", views.new_workout, name="new_workout"),
+    path("workouts/create/", views.workout_create, name="workout_create"),
 ]
