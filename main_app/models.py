@@ -1,4 +1,5 @@
 from django.db import models
+from django.urls import reverse
 from django.contrib.auth.models import User
 from django.contrib.postgres.fields import ArrayField
 
@@ -22,6 +23,9 @@ class Workout(models.Model):
     date = models.DateField("Workout Date")
     category = ArrayField(models.IntegerField())
     profile = models.ForeignKey(Profile, on_delete=models.CASCADE)
+
+    def get_absolute_url(self):
+        return reverse("detail", kwargs={"workout_id": self.id})
 
 
 class Activity(models.Model):
