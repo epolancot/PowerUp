@@ -6,9 +6,16 @@ from django.contrib.postgres.fields import ArrayField
 # Create your models here.
 
 
+class Exercise(models.Model):
+    name = models.CharField()
+    category = models.IntegerField()
+    description = models.CharField()
+    url = models.CharField()
+
+
 class Profile(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
-    favorite_exercises = models.ManyToMany(Exercise)
+    favorite_exercises = models.ManyToManyField(Exercise)
 
 
 class Workout(models.Model):
@@ -22,16 +29,9 @@ class Activity(models.Model):
     workout = models.ForeignKey(Workout, on_delete=models.CASCADE)
 
 
-class Sets(models.Model):
+class Set(models.Model):
     activity = models.ForeignKey(Activity, on_delete=models.CASCADE)
     category = models.IntegerField()
     duration = models.IntegerField(blank=True)
     reps = models.IntegerField(blank=True)
     weight = models.IntegerField(blank=True)
-
-
-class Exercise(models.Model):
-    name = models.CharField()
-    category = models.IntegerField()
-    description = models.CharField()
-    url = models.CharField()
