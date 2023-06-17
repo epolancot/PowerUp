@@ -9,9 +9,26 @@ from django.contrib.postgres.fields import ArrayField
 
 class Exercise(models.Model):
     name = models.CharField()
+    wger_id = models.IntegerField()
     category = models.IntegerField()
     description = models.CharField()
-    url = models.CharField()
+
+    @classmethod
+    def check_new_exercise(cls, exercise_id):
+        exercise_list = [exercise.wgner_id for exercise in Exercise.objects.all()]
+        if exercise_id not in exercise_list:
+            response = requests.get(
+                f"https://wger.de/api/v2/exerciseinfo/{exercise_id}/"
+            )
+            exercise = response.json()
+            print(exercise)
+            new_exercise = Exercise.objects.create(
+                name=exercise.name,
+                wger_id=exercise.id,
+                category=exercise.category,
+                description=exercise.description,
+            )
+            new_exercise.save()
 
 
 class Profile(models.Model):

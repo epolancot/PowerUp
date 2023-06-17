@@ -64,4 +64,8 @@ def workout_create(request):
     )
     new_workout.save()
     return redirect("detail", workout_id=new_workout.id)
-    pass
+
+
+@login_required
+def activity_create(request, workout_id, exercise_id):
+    Exercise.check_new_exercise(exercise_id)
