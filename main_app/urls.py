@@ -9,4 +9,24 @@ urlpatterns = [
     path("workouts/<int:workout_id>/", views.workouts_detail, name="detail"),
     path("workouts/new/", views.new_workout, name="new_workout"),
     path("workouts/create/", views.workout_create, name="workout_create"),
+    path(
+        "workouts/<int:workouts_id>/create_activity/<int:exercise_id>/",
+        views.create_activity,
+        name="create_activity",
+    ),
+    path(
+        "workouts/<int:workouts_id>/delete_activity/<int:activity_id>/",
+        views.delete_activity,
+        name="delete_activity",
+    ),
+    path(
+        "workouts/<int:workouts_id>/create_set/<int:activity_id>/",
+        views.create_set,
+        name="create_set",
+    ),
+    path(
+        "workouts/<int:workouts_id>/delete_set/<int:set_id>/",
+        views.delete_set,
+        name="delete_set",
+    ),
 ]
