@@ -4,9 +4,6 @@ from django.contrib.auth.models import User
 from django.contrib.postgres.fields import ArrayField
 
 
-# Create your models here.
-
-
 class Exercise(models.Model):
     name = models.CharField()
     wger_id = models.IntegerField()
@@ -21,7 +18,6 @@ class Exercise(models.Model):
                 f"https://wger.de/api/v2/exerciseinfo/{exercise_id}/"
             )
             exercise = response.json()
-            print(exercise)
             new_exercise = Exercise.objects.create(
                 name=exercise.name,
                 wger_id=exercise.id,

@@ -21,6 +21,8 @@ def signup(request):
         form = UserCreationForm(request.POST)
         if form.is_valid():
             user = form.save()
+            profile = Profile.objects.create(user=user)
+            profile.save()
             login(request, user)
             return redirect("index")
         else:
@@ -46,12 +48,6 @@ def workouts_detail(request, workout_id):
     return render(request, "workouts/detail.html")
 
 
-def placeholder():
-    response = requests.get("https://wger.de/api/v2/exerciseinfo/345/")
-    exercise = response.json()
-    print(exercise)
-
-
 @login_required
 def new_workout(request):
     return render(request, "main_app/workout_form.html")
@@ -69,3 +65,9 @@ def workout_create(request):
 @login_required
 def activity_create(request, workout_id, exercise_id):
     Exercise.check_new_exercise(exercise_id)
+    exercise_object = exercise.objects.get(wger_id=exercise_id)
+    new_activity = Activity.objects.create(
+        exercise=exercise_object.id, workout=workout_id
+    )
+    new_activity.save()
+    return redirect("detail", workout_id=workout_id)
