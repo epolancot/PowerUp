@@ -83,7 +83,17 @@ def delete_activity(request, workout_id, activity_id):
 
 
 @login_required
-def create_set(request, workout_id, exercise_id):
+def create_set(request, workout_id, activity_id):
+    activity = Activity.objects.get(id=activity_id)
+    if activity.category == 15:
+        new_set = Set.objects.create(
+            activity=activity_id, duration=request.POST.duration
+        )
+    else:
+        new_set = Set.objects.create(
+            activity=activity_id, reps=request.POST.reps, weight=request.POST.weight
+        )
+    new_set.save()
     return redirect("detail", workout_id=workout_id)
 
 
@@ -92,3 +102,33 @@ def delete_set(request, workout_id, set_id):
     set_record = Set.objects.get(id=set_id)
     set_record.delete()
     return redirect("detail", workout_id=workout_id)
+
+
+@login_required
+def search(request, workout_id):
+    workout = Workout.objects.get(id=workout_id)
+    relevant_exercises = []
+    search_results = []
+    error_message = ""
+    for category in workout.category:
+        response = requests.get(
+            f"https://wger.de/api/v2/exercise/?category={category}&language=2&limit=160"
+        )
+        category_exercises = response.json()
+        relevant_exercises.extend(category_exercises.results)
+    if request.method == "POST":
+        keywords = request.POST.search.split(" ")
+        search_results = filter(
+            lambda x: any([word in x for word in keywords]), relevant_exercises
+        )
+        if length(search_results) > 0:
+            error_message = "No results match your search."
+    return render(
+        request,
+        "workouts/search.html",
+        {
+            "relevant_exercises": relevant_exercises,
+            "search_results": search_results,
+            "error_message": error_message,
+        },
+    )

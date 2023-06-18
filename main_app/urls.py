@@ -9,6 +9,7 @@ urlpatterns = [
     path("workouts/<int:workout_id>/", views.workouts_detail, name="detail"),
     path("workouts/new/", views.new_workout, name="new_workout"),
     path("workouts/create/", views.workout_create, name="workout_create"),
+    path("workouts/<int:workouts_id>/search", views.search, name="search"),
     path(
         "workouts/<int:workouts_id>/create_activity/<int:exercise_id>/",
         views.create_activity,
