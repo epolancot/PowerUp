@@ -63,11 +63,32 @@ def workout_create(request):
 
 
 @login_required
-def activity_create(request, workout_id, exercise_id):
+def create_activity(request, workout_id, exercise_id):
     Exercise.check_new_exercise(exercise_id)
     exercise_object = exercise.objects.get(wger_id=exercise_id)
     new_activity = Activity.objects.create(
-        exercise=exercise_object.id, workout=workout_id
+        exercise=exercise_object.id,
+        workout=workout_id,
+        category=exercise_object.category,
     )
     new_activity.save()
+    return redirect("detail", workout_id=workout_id)
+
+
+@login_required
+def delete_activity(request, workout_id, activity_id):
+    activity = Activity.objects.get(id=activity_id)
+    activity.delete()
+    return redirect("detail", workout_id=workout_id)
+
+
+@login_required
+def create_set(request, workout_id, exercise_id):
+    return redirect("detail", workout_id=workout_id)
+
+
+@login_required
+def delete_set(request, workout_id, set_id):
+    set_record = Set.objects.get(id=set_id)
+    set_record.delete()
     return redirect("detail", workout_id=workout_id)

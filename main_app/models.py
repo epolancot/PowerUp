@@ -44,11 +44,11 @@ class Workout(models.Model):
 class Activity(models.Model):
     exercise = models.ForeignKey(Exercise, on_delete=models.CASCADE)
     workout = models.ForeignKey(Workout, on_delete=models.CASCADE)
+    category = models.IntegerField()
 
 
 class Set(models.Model):
     activity = models.ForeignKey(Activity, on_delete=models.CASCADE)
-    category = models.IntegerField()
     duration = models.IntegerField(blank=True)
     reps = models.IntegerField(blank=True)
     weight = models.IntegerField(blank=True)
