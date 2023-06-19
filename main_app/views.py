@@ -143,12 +143,15 @@ def search(request, workout_id):
             key=lambda x: fuzz.toke_sort_ratio(x["name"], target),
             reverse=True,
         )
-        if length(search_results) > 0:
+        
+        if len(search_results) > 0:
             error_message = "No results match your search."
+
     return render(
         request,
         "workouts/search.html",
         {
+            "workout_id": workout_id,
             "relevant_exercises": relevant_exercises,
             "search_results": search_results,
             "error_message": error_message,
