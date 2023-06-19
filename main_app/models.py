@@ -12,17 +12,15 @@ class Exercise(models.Model):
 
     @classmethod
     def check_new_exercise(cls, exercise_id):
-        exercise_list = [exercise.wgner_id for exercise in Exercise.objects.all()]
+        exercise_list = [exercise["wgner_id"] for exercise in Exercise.objects.all()]
         if exercise_id not in exercise_list:
-            response = requests.get(
-                f"https://wger.de/api/v2/exerciseinfo/{exercise_id}/"
-            )
+            response = requests.get(f"https://wger.de/api/v2/exercise/{exercise_id}/")
             exercise = response.json()
             new_exercise = Exercise.objects.create(
-                name=exercise.name,
-                wger_id=exercise.id,
-                category=exercise.category,
-                description=exercise.description,
+                name=exercise["name"],
+                wger_id=exercise["id"],
+                category=exercise["category"],
+                description=exercise["description"],
             )
             new_exercise.save()
 
