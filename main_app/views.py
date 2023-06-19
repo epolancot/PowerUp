@@ -8,6 +8,8 @@ from django.contrib.auth.decorators import login_required
 from django.contrib.auth.mixins import LoginRequiredMixin
 import requests
 from fuzzywuzzy import fuzz
+from collections import Counter
+import datetime
 
 # Create your views here.
 
@@ -72,6 +74,13 @@ def create_workout(request):
 
 
 @login_required
+def log_workout(request, workout_id):
+    workout = Workout.objects.get(id=workout_id)
+    workout["logged"] = True
+    return redirect("detail", workout_id=new_workout.id)
+
+
+@login_required
 def create_activity(request, workout_id, exercise_id):
     Exercise.check_new_exercise(exercise_id)
     exercise_object = exercise.objects.get(wger_id=exercise_id)
@@ -126,7 +135,7 @@ def search(request, workout_id):
             f"https://wger.de/api/v2/exercise/?category={category}&language=2&limit=160"
         )
         category_exercises = response.json()
-        relevant_exercises.extend(category_exercises.results)
+        relevant_exercises.extend(category_exercises["results"])
     if request.method == "POST":
         target = request.POST["search"]
         sorted_results = sorted(
@@ -145,3 +154,21 @@ def search(request, workout_id):
             "error_message": error_message,
         },
     )
+
+
+@login_required
+def dashboard(request):
+    # focus distribution
+    all_workouts = Workout.objects.filter(user=request.user)
+    category_list = []
+    for workout in all_workouts:
+        focus_distribution.extend(workout["category"])
+    category_frequency = Counter(category_list)
+    print(category_frequency)
+
+    # workout frequency
+    today = datetime.date.today()
+    signup_date = request.user.date_joined.date()
+    days_since_signup = (today - signup_date).days
+    workout_frequency = days_since_signup / length(all_workouts)
+    print(workout_frequency)

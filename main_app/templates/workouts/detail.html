@@ -2,9 +2,8 @@
 
 {% block content %}
 <div class="container text-center">
-    <form action="/workouts/{{ workout.id }}/search">
-        <input type="hidden" name="workouts_id" id="workouts_id" value="{{ workout.id }}">
-        <button type="submit" class="btn btn-primary">Add</button>
-    </form>
+  <form action="/workouts/{{ workout.id }}/search">
+    <button type="submit" class="btn btn-primary">Add</button>
+  </form>
 </div>
 {% endblock %}
