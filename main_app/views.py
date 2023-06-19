@@ -7,6 +7,7 @@ from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.mixins import LoginRequiredMixin
 import requests
+from fuzzywuzzy import fuzz
 
 # Create your views here.
 
@@ -34,24 +35,28 @@ def signup(request):
 
 @login_required
 def about(request):
-    return render(request, "about.html")
+    return render(request, "about.html", {"title": "About"})
 
 
 @login_required
 def workouts_index(request):
     workouts = Workout.objects.filter(user=request.user)
-    return render(request, "workouts/index.html", {"workouts": workouts})
+    return render(
+        request, "workouts/index.html", {"workouts": workouts, "title": "Home"}
+    )
 
 
 @login_required
 def workouts_detail(request, workout_id):
-    workouts = Workout.objects.get(id=workout_id)
-    return render(request, "workouts/detail.html")
+    workout = Workout.objects.get(id=workout_id)
+    return render(
+        request, "workouts/detail.html", {"title": "Workout", "workout": workout}
+    )
 
 
 @login_required
 def new_workout(request):
-    return render(request, "main_app/workout_form.html")
+    return render(request, "main_app/workout_form.html", {"title": "New Workout"})
 
 
 @login_required
@@ -123,9 +128,11 @@ def search(request, workout_id):
         category_exercises = response.json()
         relevant_exercises.extend(category_exercises.results)
     if request.method == "POST":
-        keywords = request.POST.search.split(" ")
-        search_results = filter(
-            lambda x: any([word in x for word in keywords]), relevant_exercises
+        target = request.POST["search"]
+        sorted_results = sorted(
+            search_results,
+            key=lambda x: fuzz.toke_sort_ratio(x["name"], target),
+            reverse=True,
         )
         if length(search_results) > 0:
             error_message = "No results match your search."
