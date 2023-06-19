@@ -39,7 +39,8 @@ def about(request):
 
 @login_required
 def workouts_index(request):
-    return render(request, "workouts/index.html")
+    workouts = Workout.objects.filter(user=request.user)
+    return render(request, "workouts/index.html", {"workouts": workouts})
 
 
 @login_required
@@ -57,7 +58,7 @@ def new_workout(request):
 def create_workout(request):
     category = [int(i) for i in request.POST["category"].split(",")]
     new_workout = Workout.objects.create(
-        user=request.user.id,
+        user=request.user,
         date=request.POST["date"],
         category=category,
     )
@@ -90,11 +91,13 @@ def create_set(request, workout_id, activity_id):
     activity = Activity.objects.get(id=activity_id)
     if activity.category == 15:
         new_set = Set.objects.create(
-            activity=activity_id, duration=request.POST.duration
+            activity=activity_id, duration=request.POST["duration"]
         )
     else:
         new_set = Set.objects.create(
-            activity=activity_id, reps=request.POST.reps, weight=request.POST.weight
+            activity=activity_id,
+            reps=request.POST["reps"],
+            weight=request.POST["weight"],
         )
     new_set.save()
     return redirect("detail", workout_id=workout_id)
