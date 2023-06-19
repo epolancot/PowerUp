@@ -8,8 +8,8 @@
     <div class="card-body">
         <form action="{% url 'workout_create' %}" method="POST" onsubmit="assignCategory()">
           {% csrf_token %}
-          <label for="date" hidden>Date:</label>
-          <input type="date" name="date" id="date" hidden>
+          <label for="date">Date:</label>
+          <input type="date" name="date" id="date">
           <input type="hidden" name="category" value="" id="category">
           <div class="form-check form-switch">
             <input name="abs" class="form-check-input" type="checkbox" id="abs" value="10">
