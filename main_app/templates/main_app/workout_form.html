@@ -6,64 +6,65 @@
       <h3>Select target areas</h3>
     </div>
     <div class="card-body">
-        <form action="{% url 'workout_create' %}" method="POST" onsubmit="assignCategory()">
-          {% csrf_token %}
-          <label for="date" hidden>Date:</label>
-          <input type="date" name="date" id="date" hidden>
-          <input type="hidden" name="category" value="" id="category">
-          <div class="form-check form-switch">
-            <input name="abs" class="form-check-input" type="checkbox" id="abs" value="10">
-            <label class="form-check-label" for="abs">Abs</label>
-          </div>
-          <div class="form-check form-switch">
-            <input name="arms"  class="form-check-input" type="checkbox" id="arms" value="8">
-            <label class="form-check-label" for="arms">Arms</label>
-          </div>
-          <div class="form-check form-switch">
-            <input name="back"  class="form-check-input" type="checkbox" id="back" value="12">
-            <label class="form-check-label" for="back">Back</label>
-          </div>
-          <div class="form-check form-switch">
-            <input name="calves"  class="form-check-input" type="checkbox" id="calves" value="14">
-            <label class="form-check-label" for="calves">Calves</label>
-          </div>
-          <div class="form-check form-switch">
-            <input name="cardio"  class="form-check-input" type="checkbox" id="cardio" value="15">
-            <label class="form-check-label" for="cardio">Cardio</label>
-          </div>
-          <div class="form-check form-switch">
-            <input name="chest"  class="form-check-input" type="checkbox" id="chest" value="11">
-            <label class="form-check-label" for="chest">Chest</label>
-          </div>
-          <div class="form-check form-switch">
-            <input name="legs"  class="form-check-input" type="checkbox" id="legs" value="9">
-            <label class="form-check-label" for="legs">Legs</label>
-          </div>
-          <div class="form-check form-switch">
-            <input name="shoulders"  class="form-check-input" type="checkbox" id="shoulders" value="13" onclick="checkShoulders()">
-            <label class="form-check-label" for="shoulders">Shoulders</label>
-          </div>
-          <button type="submit" class="btn btn-primary">Create workout</button>
-        </form>
-      </div>
-      <div class="card-footer">
-        <img src="../../static/images/workouts/body.png" id="target-image" />
-      </div>
+      <form action="{% url 'create_workout' %}" method="POST" onsubmit="assignCategory()">
+        {% csrf_token %}
+        <label for="date">Date:</label>
+        <input type="date" name="date" id="date">
+        <input type="hidden" name="category" value="" id="category">
+        <div class="form-check form-switch">
+          <input name="abs" class="form-check-input" type="checkbox" id="abs" value="10">
+          <label class="form-check-label" for="abs">Abs</label>
+        </div>
+        <div class="form-check form-switch">
+          <input name="arms" class="form-check-input" type="checkbox" id="arms" value="8">
+          <label class="form-check-label" for="arms">Arms</label>
+        </div>
+        <div class="form-check form-switch">
+          <input name="back" class="form-check-input" type="checkbox" id="back" value="12">
+          <label class="form-check-label" for="back">Back</label>
+        </div>
+        <div class="form-check form-switch">
+          <input name="calves" class="form-check-input" type="checkbox" id="calves" value="14">
+          <label class="form-check-label" for="calves">Calves</label>
+        </div>
+        <div class="form-check form-switch">
+          <input name="cardio" class="form-check-input" type="checkbox" id="cardio" value="15">
+          <label class="form-check-label" for="cardio">Cardio</label>
+        </div>
+        <div class="form-check form-switch">
+          <input name="chest" class="form-check-input" type="checkbox" id="chest" value="11">
+          <label class="form-check-label" for="chest">Chest</label>
+        </div>
+        <div class="form-check form-switch">
+          <input name="legs" class="form-check-input" type="checkbox" id="legs" value="9">
+          <label class="form-check-label" for="legs">Legs</label>
+        </div>
+        <div class="form-check form-switch">
+          <input name="shoulders" class="form-check-input" type="checkbox" id="shoulders" value="13"
+            onclick="checkShoulders()">
+          <label class="form-check-label" for="shoulders">Shoulders</label>
+        </div>
+        <button type="submit" class="btn btn-primary">Create workout</button>
+      </form>
+    </div>
+    <div class="card-footer">
+      <img src="../../static/images/workouts/body.png" id="target-image" />
+    </div>
   </div>
 </div>
 
 <script>
-  function checkShoulders(){
+  function checkShoulders() {
     const imagePath = document.getElementById("target-image").src
     let image = imagePath.split("/")
-    const currentImage = image[image.length-1]
+    const currentImage = image[image.length - 1]
     image.pop()
     const path = image.join("/")
 
     if (document.getElementById("shoulders").checked) {
-      document.getElementById("target-image").src = `${ path }/body-shoulders.png`
+      document.getElementById("target-image").src = `${path}/body-shoulders.png`
     } else {
-      document.getElementById("target-image").src = `${ path }/body.png`
+      document.getElementById("target-image").src = `${path}/body.png`
     }
   }
 </script>
