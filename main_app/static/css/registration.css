@@ -81,8 +81,8 @@ label[for="id_username"], label[for="id_password"] {
     color: rgb(255, 255, 255);
 }
 
-.username-helptext{
-    color: white;
+.registration-helptext {
+    color: white !important;
     font-size: 10px;
 }
 
