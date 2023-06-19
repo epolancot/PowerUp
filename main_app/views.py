@@ -54,9 +54,12 @@ def new_workout(request):
 
 
 @login_required
-def workout_create(request):
+def create_workout(request):
+    category = [int(i) for i in request.POST["category"].split(",")]
     new_workout = Workout.objects.create(
-        date=request.POST["date"], category=request.POST["category"]
+        user=request.user.id,
+        date=request.POST["date"],
+        category=category,
     )
     new_workout.save()
     return redirect("detail", workout_id=new_workout.id)
