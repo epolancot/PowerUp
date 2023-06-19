@@ -14,4 +14,19 @@
     text-align: center;
 }
 
+html, body {
+    height: 100%;
+    width: 100%;
+}
 
+.flex-wrapper {
+    display: flex;
+    min-height: 95vh;
+    overflow: hidden;
+    flex-direction: column;
+    justify-content: space-between;
+}
+
+footer {
+    margin-top: auto;
+}
