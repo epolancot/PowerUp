@@ -1,10 +1,10 @@
-{%extends "base.html"%}{% block content %}
+{%extends "base.html"%}
 
-<!-- {{ for activity in workout.activity_set.all}}
-{{for set in activity.set_set.all}}
-
-{{endfor}}
-form to add set
-{{endfor}} -->
-
+{% block content %}
+<div class="container text-center">
+    <form action="/workouts/{{ workout.id }}/search">
+        <input type="hidden" name="workouts_id" id="workouts_id" value="{{ workout.id }}">
+        <button type="submit" class="btn btn-primary">Add</button>
+    </form>
+</div>
 {% endblock %}
