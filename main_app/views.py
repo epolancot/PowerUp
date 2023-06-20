@@ -128,7 +128,7 @@ def delete_set(request, workout_id, set_id):
 def search(request, workout_id):
     workout = Workout.objects.get(id=workout_id)
     relevant_exercises = []
-    search_results = []
+    sorted_results = []
     error_message = ""
     for category in workout.category:
         response = requests.get(
@@ -139,19 +139,20 @@ def search(request, workout_id):
     if request.method == "POST":
         target = request.POST["search"]
         sorted_results = sorted(
-            search_results,
-            key=lambda x: fuzz.toke_sort_ratio(x["name"], target),
+            relevant_exercises,
+            key=lambda x: fuzz.token_sort_ratio(x["name"], target),
             reverse=True,
         )
-        if len(search_results) > 0:
+        if len(sorted_results) > 0:
             error_message = "No results match your search."
     return render(
         request,
         "workouts/search.html",
         {
             "workout_id": workout_id,
+            "workout_id": workout_id,
             "relevant_exercises": relevant_exercises,
-            "search_results": search_results,
+            "search_results": sorted_results,
             "error_message": error_message,
         },
     )
