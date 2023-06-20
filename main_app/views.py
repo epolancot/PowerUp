@@ -143,12 +143,13 @@ def search(request, workout_id):
             key=lambda x: fuzz.toke_sort_ratio(x["name"], target),
             reverse=True,
         )
-        if length(search_results) > 0:
+        if len(search_results) > 0:
             error_message = "No results match your search."
     return render(
         request,
         "workouts/search.html",
         {
+            "workout_id": workout_id,
             "relevant_exercises": relevant_exercises,
             "search_results": search_results,
             "error_message": error_message,
@@ -172,3 +173,15 @@ def dashboard(request):
     days_since_signup = (today - signup_date).days
     workout_frequency = days_since_signup / length(all_workouts)
     print(workout_frequency)
+
+    # top exercises
+    workout_ids = [workout["id"] for workout in all_workouts]
+    activity_list = Activity.objects.filter(workout__in=workout_ids)
+    exercise_list = [activity["exercise"] for exercise in activity_list]
+    top_exercises = sorted(
+        Counter(exercise_list).items(), key=lambda x: x[1], reverse=True
+    )
+    print(top_exercises)
+
+    # current streak
+    workout_streak = 0
