@@ -74,7 +74,7 @@ def create_workout(request):
         category=category,
     )
     new_workout.save()
-    return redirect("detail", workout_id=new_workout.id)
+    return redirect("detail", workout_id=new_)
 
 
 @login_required
@@ -181,7 +181,6 @@ def search(request, workout_id):
         filter(lambda x: x["id"] not in results_filter, relevant_exercises)
     )
     suggested_exercises = random.sample(filtered_results, 10)
-    print(suggested_exercises)
 
     return render(
         request,
