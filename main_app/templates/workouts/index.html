@@ -3,5 +3,13 @@
 {% block content %}
 <h1>Workouts Index</h1>
 
+{% for workout  in workouts %}
+<div class="card">
+    <div class="card-content">
+        <p>Date: {{ workout.date }}</p>
+        <p>category: {{ workout.category }}</p>
+        <p>User: {{ workout.user }}</p>
 
-{% endblock %}
+    </div>
+</a>
+{% endfor %} {% endblock %}
