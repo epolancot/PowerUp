@@ -79,7 +79,30 @@ def create_workout(request):
 @login_required
 def log_workout(request, workout_id):
     workout = Workout.objects.get(id=workout_id)
-    workout["logged"] = True
+    workout.logged = True
+    return redirect("detail", workout_id=new_workout.id)
+
+
+@login_required
+def copy_workout(request, workout_id):
+    workout = Workout.objects.get(id=workout_id)
+    print
+    activities = Activity.objects.filter(workout=workout)
+    new_workout = Workout.objects.create(
+        user=request.user,
+        date=datetime.date.today(),
+        category=workout.category,
+    )
+    new_workout.save()
+    print(activities)
+    for activity in activities:
+        exercise = activity.exercise
+        new_activity = Activity.objects.create(
+            exercise=exercise,
+            workout=new_workout,
+            category=exercise.category,
+        )
+        new_activity.save()
     return redirect("detail", workout_id=new_workout.id)
 
 
@@ -153,7 +176,6 @@ def search(request, workout_id):
         "workouts/search.html",
         {
             "workout_id": workout_id,
-            "workout_id": workout_id,
             "relevant_exercises": relevant_exercises,
             "search_results": sorted_results,
             "error_message": error_message,
@@ -167,7 +189,7 @@ def dashboard(request):
     all_workouts = Workout.objects.filter(user=request.user)
     category_list = []
     for workout in all_workouts:
-        focus_distribution.extend(workout["category"])
+        focus_distribution.extend(workout.category)
     category_frequency = Counter(category_list)
     print(category_frequency)
 
@@ -179,9 +201,9 @@ def dashboard(request):
     print(workout_frequency)
 
     # top exercises
-    workout_ids = [workout["id"] for workout in all_workouts]
+    workout_ids = [workout.id for workout in all_workouts]
     activity_list = Activity.objects.filter(workout__in=workout_ids)
-    exercise_list = [activity["exercise"] for exercise in activity_list]
+    exercise_list = [activity.exercise.id for exercise in activity_list]
     top_exercises = sorted(
         Counter(exercise_list).items(), key=lambda x: x[1], reverse=True
     )
@@ -189,3 +211,33 @@ def dashboard(request):
 
     # current streak
     workout_streak = 0
+    workout_message = ""
+    previous_workout_dates = [workout.date for workout in all_workouts]
+    while True:
+        check_date = today - datetime.timedelta(days=1 + workout_streak)
+        if check_date not in previous_workout_dates:
+            break
+        workout_streak += 1
+    if today in previous_workout_dates:
+        workout_streak += 1
+        workout_message = (
+            "Great job! exercise again tomorrow to keep building your streak"
+        )
+    else:
+        if workout_streak == 0:
+            workout_message = "Log a workout today and start building your streak!"
+        else:
+            workout_message = "Log a workout for today and keep building your streak!"
+    print(workout_streak, workout_message)
+
+    return render(
+        request,
+        "workouts/dashboard.html",
+        {
+            "category_frequency": category_frequency,
+            "workout_frequency": workout_frequency,
+            "top_exercises": top_exercises,
+            "workout_workout_streak": workout_streak,
+            "workout_message": workout_message,
+        },
+    )
