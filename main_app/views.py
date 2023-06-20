@@ -43,7 +43,7 @@ def about(request):
 
 @login_required
 def workouts_index(request):
-    workouts = Workout.objects.filter(user=request.user)
+    workouts = Workout.objects.filter(profile=Profile.objects.get(user=request.user))
     return render(
         request, "workouts/index.html", {"workouts": workouts, "title": "Home"}
     )
@@ -69,19 +69,19 @@ def new_workout(request):
 def create_workout(request):
     category = [int(i) for i in request.POST["category"].split(",")]
     new_workout = Workout.objects.create(
-        user=request.user,
+        profile=Profile.objects.get(user=request.user),
         date=request.POST["date"],
         category=category,
     )
     new_workout.save()
-    return redirect("detail", workout_id=new_)
+    return redirect("detail", workout_id=new_workout.id)
 
 
 @login_required
 def log_workout(request, workout_id):
     workout = Workout.objects.get(id=workout_id)
     workout.logged = True
-    return redirect("detail", workout_id=new_workout.id)
+    return redirect("detail", workout_id=workout.id)
 
 
 @login_required
@@ -90,7 +90,7 @@ def copy_workout(request, workout_id):
     print
     activities = Activity.objects.filter(workout=workout)
     new_workout = Workout.objects.create(
-        user=request.user,
+        profile=request.user,
         date=datetime.date.today(),
         category=workout.category,
     )
@@ -102,6 +102,8 @@ def copy_workout(request, workout_id):
             exercise=exercise,
             workout=new_workout,
             category=exercise.category,
+            name=exercise_object.name,
+            description=exercise_object.description,
         )
         new_activity.save()
     return redirect("detail", workout_id=new_workout.id)
@@ -115,6 +117,8 @@ def create_activity(request, workout_id, exercise_id):
         exercise=exercise_object,
         workout=Workout.objects.get(id=workout_id),
         category=exercise_object.category,
+        name=exercise_object.name,
+        description=exercise_object.description,
     )
     new_activity.save()
     return redirect("detail", workout_id=workout_id)
