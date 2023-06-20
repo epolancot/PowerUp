@@ -34,7 +34,7 @@ class Profile(models.Model):
 class Workout(models.Model):
     date = models.DateField("Workout Date")
     category = ArrayField(models.IntegerField())
-    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    profile = models.ForeignKey(Profile, on_delete=models.CASCADE)
     logged = models.BooleanField(default=False)
 
     def get_absolute_url(self):
@@ -45,6 +45,8 @@ class Activity(models.Model):
     exercise = models.ForeignKey(Exercise, on_delete=models.CASCADE)
     workout = models.ForeignKey(Workout, on_delete=models.CASCADE)
     category = models.IntegerField()
+    name = models.CharField()
+    description = models.CharField()
 
 
 class Set(models.Model):
