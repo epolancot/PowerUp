@@ -51,6 +51,9 @@ def workouts_index(request):
 @login_required
 def workouts_detail(request, workout_id):
     workout = Workout.objects.get(id=workout_id)
+
+    if request.method == "POST":
+        target = request.POST[""]
     return render(
         request, "workouts/detail.html", {"title": "Workout", "workout": workout}
     )
