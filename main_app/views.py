@@ -10,6 +10,7 @@ import requests
 from fuzzywuzzy import fuzz
 from collections import Counter
 import datetime
+import random
 
 # Create your views here.
 
@@ -171,13 +172,24 @@ def search(request, workout_id):
         )
         if len(sorted_results) > 0:
             error_message = "No results match your search."
+    results_filter = [
+        activity.exercise.wger_id for activity in workout.activity_set.all()
+    ]
+    for result in sorted_results[:5]:
+        results_filter.append(result["id"])
+    filtered_results = list(
+        filter(lambda x: x["id"] not in results_filter, relevant_exercises)
+    )
+    suggested_exercises = random.sample(filtered_results, 10)
+    print(suggested_exercises)
+
     return render(
         request,
         "workouts/search.html",
         {
             "workout_id": workout_id,
-            "relevant_exercises": relevant_exercises,
-            "search_results": sorted_results,
+            "suggested_exercises": suggested_exercises,
+            "search_results": sorted_results[:5],
             "error_message": error_message,
         },
     )
