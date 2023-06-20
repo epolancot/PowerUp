@@ -10,8 +10,10 @@
             <button class="btn btn-primary" type="submit">Search</button>
         </form>
     </div>
-    {% for result in search_result %}
+    {% for result in search_results %}
     {{ result }}
+    ------------<br/>
+    <br/>
     {% endfor %}
     <div class="container">
         <table class="table table-striped" style="width:50%; margin:0 auto;">
@@ -28,39 +30,37 @@
                         <b>{{ excercise.name }}</b>
                     </td>
                     <td>
-                        <div class="container text-center">
-                            <form action="/workouts/{{ workout_id }}/create_activity/{{ excercise.id }}/" method="POST">
-                                {% csrf_token %}
-                                <input type="hidden" id="workout_id" value="{{workout_id}}" name="workout_id">
-                                <input type="hidden" id="exercise_id" value="{{exercise_id}}" name="exercise_id">
-                                <button type="submit" class="btn btn-primary">Add</button>
-                            </form>
-                        </div>
-                        <!-- <button type="button" class="btn btn-primary" data-bs-toggle="{{ excercise.id }}modal"
-                            data-bs-target="{{ excercise.id }}">
+                        <button type="button" class="btn btn-primary" data-bs-toggle="modal"
+                            data-bs-target="#{{ excercise.id }}modal">
                             View
                         </button>
                     </td>
-                    <div class="modal fade" id="{{ excercise.id }}" tabindex="-1" aria-labelledby="{{ excercise.id }}Label"
+                    <div class="modal fade" id="{{ excercise.id }}modal" tabindex="-1" aria-labelledby="{{ excercise.id }}Label"
                         aria-hidden="true">
                         <div class="modal-dialog">
                             <div class="modal-content">
                                 <div class="modal-header">
                                     <h5 class="modal-title" id="{{ excercise.id }}Label">{{ excercise.name }}</h5>
-                                    <button type="button" class="btn-close" data-bs-dismiss="{{ excercise.id }}modal"
+                                    <button type="button" class="btn-close" data-bs-dismiss="modal"
                                         aria-label="Close"></button>
                                 </div>
                                 <div class="modal-body">
+                                    <b>Description:</b><br/>
                                     {{ excercise.description }}
                                 </div>
                                 <div class="modal-footer">
                                     <button type="button" class="btn btn-secondary"
                                         data-bs-dismiss="modal">Close</button>
-                                    <button type="button" class="btn btn-primary">Save changes</button>
+                                    <form action="/workouts/{{ workout_id }}/create_activity/{{ excercise.id }}/" method="POST">
+                                            {% csrf_token %}
+                                            <input type="hidden" id="workout_id" value="{{workout_id}}" name="workout_id">
+                                            <input type="hidden" id="exercise_id" value="{{exercise_id}}" name="exercise_id">
+                                            <button type="submit" class="btn btn-primary">Add</button>
+                                    </form>
                                 </div>
                             </div>
                         </div>
-                    </div>-->
+                    </div>
                 </tr>
                 {% endfor %}
             </tbody>
