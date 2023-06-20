@@ -7,9 +7,7 @@
     </form>
 </div>
 
-{% for activities in workout.activity_set.all %}
-    {% for activity in activities.all_set.all %}
-        {{ activity.name }}
-    {% endfor %}
+{% for activity in workout.activity_set.all %}
+    {{ activity.excercise }}
 {% endfor %}
 {% endblock %}
