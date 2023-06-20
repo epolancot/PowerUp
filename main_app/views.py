@@ -63,7 +63,7 @@ def create_workout(request):
         category=category,
     )
     new_workout.save()
-    return redirect("detail", workout_id=new_workout.id)
+    return redirect("detail", workout_id=new_)
 
 
 @login_required
