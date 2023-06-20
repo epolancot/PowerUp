@@ -7,6 +7,9 @@ from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.mixins import LoginRequiredMixin
 import requests
+from fuzzywuzzy import fuzz
+from collections import Counter
+import datetime
 
 # Create your views here.
 
@@ -34,24 +37,31 @@ def signup(request):
 
 @login_required
 def about(request):
-    return render(request, "about.html")
+    return render(request, "about.html", {"title": "About"})
 
 
 @login_required
 def workouts_index(request):
     workouts = Workout.objects.filter(user=request.user)
-    return render(request, "workouts/index.html", {"workouts": workouts})
+    return render(
+        request, "workouts/index.html", {"workouts": workouts, "title": "Home"}
+    )
 
 
 @login_required
 def workouts_detail(request, workout_id):
-    workouts = Workout.objects.get(id=workout_id)
-    return render(request, "workouts/detail.html")
+    workout = Workout.objects.get(id=workout_id)
+
+    if request.method == "POST":
+        target = request.POST[""]
+    return render(
+        request, "workouts/detail.html", {"title": "Workout", "workout": workout}
+    )
 
 
 @login_required
 def new_workout(request):
-    return render(request, "main_app/workout_form.html")
+    return render(request, "main_app/workout_form.html", {"title": "New Workout"})
 
 
 @login_required
@@ -67,12 +77,42 @@ def create_workout(request):
 
 
 @login_required
+def log_workout(request, workout_id):
+    workout = Workout.objects.get(id=workout_id)
+    workout.logged = True
+    return redirect("detail", workout_id=new_workout.id)
+
+
+@login_required
+def copy_workout(request, workout_id):
+    workout = Workout.objects.get(id=workout_id)
+    print
+    activities = Activity.objects.filter(workout=workout)
+    new_workout = Workout.objects.create(
+        user=request.user,
+        date=datetime.date.today(),
+        category=workout.category,
+    )
+    new_workout.save()
+    print(activities)
+    for activity in activities:
+        exercise = activity.exercise
+        new_activity = Activity.objects.create(
+            exercise=exercise,
+            workout=new_workout,
+            category=exercise.category,
+        )
+        new_activity.save()
+    return redirect("detail", workout_id=new_workout.id)
+
+
+@login_required
 def create_activity(request, workout_id, exercise_id):
     Exercise.check_new_exercise(exercise_id)
-    exercise_object = exercise.objects.get(wger_id=exercise_id)
+    exercise_object = Exercise.objects.get(wger_id=exercise_id)
     new_activity = Activity.objects.create(
-        exercise=exercise_object.id,
-        workout=workout_id,
+        exercise=exercise_object,
+        workout=Workout.objects.get(id=workout_id),
         category=exercise_object.category,
     )
     new_activity.save()
@@ -91,11 +131,11 @@ def create_set(request, workout_id, activity_id):
     activity = Activity.objects.get(id=activity_id)
     if activity.category == 15:
         new_set = Set.objects.create(
-            activity=activity_id, duration=request.POST["duration"]
+            activity=activity, duration=request.POST["duration"]
         )
     else:
         new_set = Set.objects.create(
-            activity=activity_id,
+            activity=activity,
             reps=request.POST["reps"],
             weight=request.POST["weight"],
         )
@@ -114,27 +154,90 @@ def delete_set(request, workout_id, set_id):
 def search(request, workout_id):
     workout = Workout.objects.get(id=workout_id)
     relevant_exercises = []
-    search_results = []
+    sorted_results = []
     error_message = ""
     for category in workout.category:
         response = requests.get(
             f"https://wger.de/api/v2/exercise/?category={category}&language=2&limit=160"
         )
         category_exercises = response.json()
-        relevant_exercises.extend(category_exercises.results)
+        relevant_exercises.extend(category_exercises["results"])
     if request.method == "POST":
-        keywords = request.POST.search.split(" ")
-        search_results = filter(
-            lambda x: any([word in x for word in keywords]), relevant_exercises
+        target = request.POST["search"]
+        sorted_results = sorted(
+            relevant_exercises,
+            key=lambda x: fuzz.token_sort_ratio(x["name"], target),
+            reverse=True,
         )
-        if length(search_results) > 0:
+        if len(sorted_results) > 0:
             error_message = "No results match your search."
     return render(
         request,
         "workouts/search.html",
         {
+            "workout_id": workout_id,
             "relevant_exercises": relevant_exercises,
-            "search_results": search_results,
+            "search_results": sorted_results,
             "error_message": error_message,
+        },
+    )
+
+
+@login_required
+def dashboard(request):
+    # focus distribution
+    all_workouts = Workout.objects.filter(user=request.user)
+    category_list = []
+    for workout in all_workouts:
+        focus_distribution.extend(workout.category)
+    category_frequency = Counter(category_list)
+    print(category_frequency)
+
+    # workout frequency
+    today = datetime.date.today()
+    signup_date = request.user.date_joined.date()
+    days_since_signup = (today - signup_date).days
+    workout_frequency = days_since_signup / length(all_workouts)
+    print(workout_frequency)
+
+    # top exercises
+    workout_ids = [workout.id for workout in all_workouts]
+    activity_list = Activity.objects.filter(workout__in=workout_ids)
+    exercise_list = [activity.exercise.id for exercise in activity_list]
+    top_exercises = sorted(
+        Counter(exercise_list).items(), key=lambda x: x[1], reverse=True
+    )
+    print(top_exercises)
+
+    # current streak
+    workout_streak = 0
+    workout_message = ""
+    previous_workout_dates = [workout.date for workout in all_workouts]
+    while True:
+        check_date = today - datetime.timedelta(days=1 + workout_streak)
+        if check_date not in previous_workout_dates:
+            break
+        workout_streak += 1
+    if today in previous_workout_dates:
+        workout_streak += 1
+        workout_message = (
+            "Great job! exercise again tomorrow to keep building your streak"
+        )
+    else:
+        if workout_streak == 0:
+            workout_message = "Log a workout today and start building your streak!"
+        else:
+            workout_message = "Log a workout for today and keep building your streak!"
+    print(workout_streak, workout_message)
+
+    return render(
+        request,
+        "workouts/dashboard.html",
+        {
+            "category_frequency": category_frequency,
+            "workout_frequency": workout_frequency,
+            "top_exercises": top_exercises,
+            "workout_workout_streak": workout_streak,
+            "workout_message": workout_message,
         },
     )

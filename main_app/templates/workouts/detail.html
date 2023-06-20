@@ -1,5 +1,10 @@
-{%extends "base.html"%}{% block content %}
+{%extends "base.html"%}
 
-
+{% block content %}
+<div class="container text-center">
+    <form action="/workouts/{{ workout.id }}/search">
+        <button type="submit" class="btn btn-primary">Add</button>
+    </form>
+</div>
 
 {% endblock %}
