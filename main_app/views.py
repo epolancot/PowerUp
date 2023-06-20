@@ -105,11 +105,11 @@ def create_set(request, workout_id, activity_id):
     activity = Activity.objects.get(id=activity_id)
     if activity.category == 15:
         new_set = Set.objects.create(
-            activity=activity_id, duration=request.POST["duration"]
+            activity=activity, duration=request.POST["duration"]
         )
     else:
         new_set = Set.objects.create(
-            activity=activity_id,
+            activity=activity,
             reps=request.POST["reps"],
             weight=request.POST["weight"],
         )

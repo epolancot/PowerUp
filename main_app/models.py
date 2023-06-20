@@ -14,7 +14,6 @@ class Exercise(models.Model):
     @classmethod
     def check_new_exercise(cls, exercise_id):
         existing_exercise = Exercise.objects.filter(wger_id=exercise_id)
-        print(existing_exercise)
         if not existing_exercise:
             response = requests.get(f"https://wger.de/api/v2/exercise/{exercise_id}/")
             exercise = response.json()
