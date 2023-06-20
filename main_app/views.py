@@ -128,7 +128,7 @@ def delete_set(request, workout_id, set_id):
 def search(request, workout_id):
     workout = Workout.objects.get(id=workout_id)
     relevant_exercises = []
-    search_results = []
+    sorted_results = []
     error_message = ""
     for category in workout.category:
         response = requests.get(
@@ -139,21 +139,20 @@ def search(request, workout_id):
     if request.method == "POST":
         target = request.POST["search"]
         sorted_results = sorted(
-            search_results,
-            key=lambda x: fuzz.toke_sort_ratio(x["name"], target),
+            relevant_exercises,
+            key=lambda x: fuzz.token_sort_ratio(x["name"], target),
             reverse=True,
         )
-        
-        if len(search_results) > 0:
+        if len(sorted_results) > 0:
             error_message = "No results match your search."
-
     return render(
         request,
         "workouts/search.html",
         {
             "workout_id": workout_id,
+            "workout_id": workout_id,
             "relevant_exercises": relevant_exercises,
-            "search_results": search_results,
+            "search_results": sorted_results,
             "error_message": error_message,
         },
     )
@@ -175,3 +174,15 @@ def dashboard(request):
     days_since_signup = (today - signup_date).days
     workout_frequency = days_since_signup / length(all_workouts)
     print(workout_frequency)
+
+    # top exercises
+    workout_ids = [workout["id"] for workout in all_workouts]
+    activity_list = Activity.objects.filter(workout__in=workout_ids)
+    exercise_list = [activity["exercise"] for exercise in activity_list]
+    top_exercises = sorted(
+        Counter(exercise_list).items(), key=lambda x: x[1], reverse=True
+    )
+    print(top_exercises)
+
+    # current streak
+    workout_streak = 0
