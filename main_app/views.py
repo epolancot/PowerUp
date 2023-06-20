@@ -51,6 +51,9 @@ def workouts_index(request):
 @login_required
 def workouts_detail(request, workout_id):
     workout = Workout.objects.get(id=workout_id)
+
+    if request.method == "POST":
+        target = request.POST[""]
     return render(
         request, "workouts/detail.html", {"title": "Workout", "workout": workout}
     )
@@ -83,10 +86,10 @@ def log_workout(request, workout_id):
 @login_required
 def create_activity(request, workout_id, exercise_id):
     Exercise.check_new_exercise(exercise_id)
-    exercise_object = exercise.objects.get(wger_id=exercise_id)
+    exercise_object = Exercise.objects.get(wger_id=exercise_id)
     new_activity = Activity.objects.create(
-        exercise=exercise_object.id,
-        workout=workout_id,
+        exercise=exercise_object,
+        workout=Workout.objects.get(id=workout_id),
         category=exercise_object.category,
     )
     new_activity.save()
