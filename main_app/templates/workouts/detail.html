@@ -8,6 +8,6 @@
 </div>
 
 {% for activity in workout.activity_set.all %}
-    {{ activity.excercise }}
+    {{ activity.exercise.name }}
 {% endfor %}
 {% endblock %}
