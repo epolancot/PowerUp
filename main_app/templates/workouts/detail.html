@@ -51,7 +51,6 @@
                             <b>Duration: </b>{{ set.duration }}
                         {% endfor %}
                     {% else %}
-                        {% if activity.set %}
                         <h4 class="mt-2">Sets</h4>
                         <table class="table">
                             <thead>
@@ -69,7 +68,6 @@
                                 {% endfor %}
                             </tbody>
                         </table>
-                        {% endif %}
                     {% endif %}
                 </div>
                 <hr/>
