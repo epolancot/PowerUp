@@ -24,14 +24,14 @@ body {
 }
 
 .logo-container img {
-    max-width: 200px; /* adjust as needed */
+    max-width: 200px; 
 }
 
 .login-container {
     animation: fadeIn 2s;
     width: 300px;
     padding: 16px;
-    background-color: #D65A31;  /* Semi-transparent background */
+    background-color: #D65A31;  
     margin: 0 auto;
     margin-top: 50px;
     border-radius: 4px;
@@ -66,8 +66,8 @@ body {
     </div>
     <div class="login-container">
         <h1>Welcome to PowerUp</h1>
-        <button type="button" id="login-btn">Log In</button>
-        <button type="button" id="signup-btn">Sign Up</button>
+        <a href="{% url 'login' %}"><button type="button" id="login-btn">Log In</button></a>
+        <a href="{% url 'signup' %}"><button type="button" id="signup-btn">Sign Up</button></a>
     </div>
 </body>
 </html>
