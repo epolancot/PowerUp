@@ -64,8 +64,8 @@
                 </button>
                 {% else %}
                 <button type="button" class="btn btn-danger mb-2" data-bs-toggle="modal"
-                data-bs-target="#{{ activity.id }}modal">
-                Add Set
+                    data-bs-target="#{{ activity.id }}modal">
+                    Add Set
                 </button>
                 {% endif %}
             </div>
@@ -85,16 +85,19 @@
                             <form action="/workouts/{{ workout.id }}/create_set/{{ activity.id }}/" method="POST">
                                 {% csrf_token %}
                                 {% if activity.exercise.category == 15 %}
-                                <label class="form-label" for="rep_input_{{ activity.id }}" hidden><b>Repetitions: </b></label>
+                                <label class="form-label" for="rep_input_{{ activity.id }}" hidden><b>Repetitions:
+                                    </b></label>
                                 <input type="text" name="reps" maxlength="5" id="rep_input_{{ activity.id }}"
                                     placeholder="" value="0" hidden>
                                 <br />
-                                <label class="form-label" for="weight_input_{{ activity.id }}" hidden><b>Weight: </b></label>
+                                <label class="form-label" for="weight_input_{{ activity.id }}" hidden><b>Weight:
+                                    </b></label>
                                 <input type="text" name="weight" maxlength="5" id="weight_input_{{ activity.id }}"
-                                    placeholder="" value=" " hidden>
-                                <label class="form-label" for="duration_input_{{ activity.id }}"><b>Duration: </b></label>
+                                    placeholder="" value="0" hidden>
+                                <label class="form-label" for="duration_input_{{ activity.id }}"><b>Duration:
+                                    </b></label>
                                 <input type="text" name="duration" maxlength="5" id="duration_input_{{ activity.id }}"
-                                        placeholder="" value="0">
+                                    placeholder="" value="0">
                                 {% else %}
                                 <label class="form-label" for="rep_input_{{ activity.id }}"><b>Repetitions: </b></label>
                                 <input type="text" name="reps" maxlength="5" id="rep_input_{{ activity.id }}"
@@ -103,9 +106,10 @@
                                 <label class="form-label" for="weight_input_{{ activity.id }}"><b>Weight: </b></label>
                                 <input type="text" name="weight" maxlength="5" id="weight_input_{{ activity.id }}"
                                     placeholder="" value="">
-                                <label class="form-label" for="duration_input_{{ activity.id }}" hidden><b>Duration: </b></label>
+                                <label class="form-label" for="duration_input_{{ activity.id }}" hidden><b>Duration:
+                                    </b></label>
                                 <input type="text" name="duration" maxlength="5" id="duration_input_{{ activity.id }}"
-                                        placeholder="" value="0" hidden>
+                                    placeholder="" value="0" hidden>
                                 {% endif %}
                                 <div class="modal-footer">
                                     <button type="button" class="btn btn-secondary"

@@ -1,5 +1,5 @@
 from django.shortcuts import render, redirect
-from .models import Profile, Workout, Activity, Exercise, Set
+from .models import Profile, Workout, Activity, Exercise, User, Set
 from django.views.generic.edit import CreateView, UpdateView, DeleteView
 from django.views.generic import ListView, DetailView
 from django.contrib.auth import login
@@ -34,6 +34,17 @@ def signup(request):
     form = UserCreationForm()
     context = {"form": form, "error_message": error_message}
     return render(request, "registration/signup.html", context)
+
+
+@login_required
+def profile(request):
+    return render(request, "profile/index.html", {"user": request.user})
+
+
+class UserUpdate(LoginRequiredMixin, UpdateView):
+    model = User
+    fields = ["first_name", "last_name", "email"]
+    success_url = "/profile"
 
 
 @login_required
@@ -87,7 +98,8 @@ def log_workout(request, workout_id):
 @login_required
 def publish_workout(request, workout_id):
     workout = Workout.objects.get(id=workout_id)
-    workout.published = True
+    if workout.logged == True:
+        workout.published = True
     return redirect("detail", workout_id=workout.id)
 
 
@@ -141,16 +153,12 @@ def delete_activity(request, workout_id, activity_id):
 @login_required
 def create_set(request, workout_id, activity_id):
     activity = Activity.objects.get(id=activity_id)
-    if activity.category == 15:
-        new_set = Set.objects.create(
-            activity=activity, duration=request.POST["duration"]
-        )
-    else:
-        new_set = Set.objects.create(
-            activity=activity,
-            reps=request.POST["reps"],
-            weight=request.POST["weight"],
-        )
+    new_set = Set.objects.create(
+        activity=activity,
+        duration=request.POST["duration"],
+        reps=request.POST["reps"],
+        weight=request.POST["weight"],
+    )
     new_set.save()
     return redirect("detail", workout_id=workout_id)
 
@@ -267,11 +275,59 @@ def dashboard(request):
 
 @login_required
 def favorite_exercise(request, exercise_id):
-    Profile.objects.get(user=request.user).exercise.add(exercise_id)
-    return redirect("dashboard")
+    Exercise.check_new_exercise(exercise_id)
+    exercise_object = Exercise.objects.get(wger_id=exercise_id)
+    Profile.objects.get(user=request.user).favorite_exercises.add(exercise_object.id)
+    return redirect("browse_exercises")
 
 
 @login_required
 def unfavorite_exercise(request, exercise_id):
-    Profile.objects.get(user=request.user).exercise.remove(exercise_id)
-    return redirect("dashboard")
+    exercise_object = Exercise.objects.get(wger_id=exercise_id)
+    Profile.objects.get(user=request.user).favorite_exercises.remove(exercise_object.id)
+    return redirect("browse_exercises")
+
+
+@login_required
+def browse_exercises(request):
+    results = []
+    sorted_results = []
+    category = request.POST.get("category")
+    if category:
+        response = requests.get(
+            f"https://wger.de/api/v2/exercise/?category={category}&language=2&limit=160"
+        )
+        category_exercises = response.json()
+        results.extend(category_exercises["results"])
+    else:
+        response = requests.get(
+            f"https://wger.de/api/v2/exercise/?language=2&limit=385"
+        )
+        category_exercises = response.json()
+        results.extend(category_exercises["results"])
+    if request.method == "POST":
+        target = request.POST["search"]
+        sorted_results = sorted(
+            results,
+            key=lambda x: fuzz.token_sort_ratio(x["name"], target),
+            reverse=True,
+        )
+    profile = Profile.objects.get(user=request.user)
+    favorite_exercises = [
+        exercise.wger_id for exercise in profile.favorite_exercises.all()
+    ]
+    print(favorite_exercises)
+    return render(
+        request,
+        "browse/exercises.html",
+        {
+            "search_results": sorted_results[:10],
+            "favorite_exercises": favorite_exercises,
+        },
+    )
+
+
+@login_required
+def browse_workouts(request):
+    available_workouts = Workout.objects.filter(published=True)
+    pass
