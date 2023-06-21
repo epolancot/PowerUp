@@ -1,0 +1,82 @@
+{% extends "base.html" %}
+
+{% block content %}
+<h1>Search exercises:</h1>
+<div class="container">
+  <div class="d-flex align-items-center justify-content-center vh-10 flex-column gap-4">
+    <form class="d-flex" action="" method="POST">
+      {% csrf_token %}
+      <input class="form-control me-1" type="search" placeholder="Search" aria-label="Search" name="search" id="search">
+      <label for="category">Specify exercise category</label>
+      <select name="category" id="category">
+        <option value="" selected></option>
+        <option value="8">Arms</option>
+        <option value="10">Abs</option>
+        <option value="12">Back</option>
+        <option value="14">Calves</option>
+        <option value="11">Chest</option>
+        <option value="9">Legs</option>
+        <option value="13">Shoulders</option>
+        <option value="15">Cardio</option>
+      </select>
+      <button class="btn btn-primary" type="submit">Search</button>
+    </form>
+  </div>
+  {% if search_results %}
+  <div class="container">
+    <table class="table table-striped" style="width:50%; margin:0 auto;">
+      <thead>
+        <tr>
+          <th></th>
+          <th></th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for result in search_results %}
+        <tr>
+          <td>
+            <b>{{ result.name }}</b>
+          </td>
+          <td>
+            <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#{{ result.id }}modal">
+              View
+            </button>
+          </td>
+          <div class="modal fade" id="{{ result.id }}modal" tabindex="-1" aria-labelledby="{{ result.id }}Label"
+            aria-hidden="true">
+            <div class="modal-dialog">
+              <div class="modal-content">
+                <div class="modal-header">
+                  <h5 class="modal-title" id="{{ result.id }}Label">{{ result.name }}</h5>
+                  <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                  <b>Description:</b><br />
+                  {{ result.description |striptags}}
+                </div>
+                <div class="modal-footer">
+                  <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                  <!-- update favorite/unfavorite -->
+                  {% if result.id in favorite_exercises %}
+                  <form action="/workouts/{{result.id}}/unfavorite/" method="POST">
+                    {% csrf_token %}
+                    <button type="submit" class="btn btn-primary">Unfavorite</button>
+                  </form>
+                  {% else %}
+                  <form action="/workouts/{{result.id}}/favorite/" method="POST">
+                    {% csrf_token %}
+                    <button type="submit" class="btn btn-primary">Favorite</button>
+                  </form>
+                  {% endif %}
+                </div>
+              </div>
+            </div>
+          </div>
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+</div>
+{% endif %}
+{% endblock %}

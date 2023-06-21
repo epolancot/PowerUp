@@ -1,0 +1,9 @@
+{% extends 'base.html' %}
+{% block content %}
+
+<h1>Profile</h1>
+
+
+<a href="{% url 'profile_update' user.id %}">Edit</a>
+
+{% endblock %}
