@@ -14,6 +14,17 @@ import random
 
 # Create your views here.
 
+categories = {
+    8: "Arms",
+    10: "Abs",
+    12: "Back",
+    14: "Calves",
+    11: "Chest",
+    9: "Legs",
+    13: "Shoulders",
+    15: "Cardio",
+}
+
 
 def home(request):
     return render(request, "home.html")
@@ -79,10 +90,16 @@ def new_workout(request):
 @login_required
 def create_workout(request):
     category = [int(i) for i in request.POST["category"].split(",")]
+    category_text = [categories[cat] for cat in category]
+    if request.POST["date"]:
+        date = request.POST["date"]
+    else:
+        date = datetime.date.today()
     new_workout = Workout.objects.create(
         profile=Profile.objects.get(user=request.user),
-        date=request.POST["date"],
+        date=date,
         category=category,
+        category_text=category_text,
     )
     new_workout.save()
     return redirect("detail", workout_id=new_workout.id)
@@ -292,20 +309,20 @@ def unfavorite_exercise(request, exercise_id):
 def browse_exercises(request):
     results = []
     sorted_results = []
-    category = request.POST.get("category")
-    if category:
-        response = requests.get(
-            f"https://wger.de/api/v2/exercise/?category={category}&language=2&limit=160"
-        )
-        category_exercises = response.json()
-        results.extend(category_exercises["results"])
-    else:
-        response = requests.get(
-            f"https://wger.de/api/v2/exercise/?language=2&limit=385"
-        )
-        category_exercises = response.json()
-        results.extend(category_exercises["results"])
     if request.method == "POST":
+        category = request.POST.get("category")
+        if category:
+            response = requests.get(
+                f"https://wger.de/api/v2/exercise/?category={category}&language=2&limit=160"
+            )
+            category_exercises = response.json()
+            results.extend(category_exercises["results"])
+        else:
+            response = requests.get(
+                f"https://wger.de/api/v2/exercise/?language=2&limit=385"
+            )
+            category_exercises = response.json()
+            results.extend(category_exercises["results"])
         target = request.POST["search"]
         sorted_results = sorted(
             results,
@@ -316,7 +333,6 @@ def browse_exercises(request):
     favorite_exercises = [
         exercise.wger_id for exercise in profile.favorite_exercises.all()
     ]
-    print(favorite_exercises)
     return render(
         request,
         "browse/exercises.html",
@@ -329,5 +345,22 @@ def browse_exercises(request):
 
 @login_required
 def browse_workouts(request):
-    available_workouts = Workout.objects.filter(published=True)
-    pass
+    available_workouts = Workout.objects.filter(published=True).exclude(
+        profile=Profile.objects.get(user=request.user)
+    )
+    sorted_results = []
+    category = request.POST.get("category")
+    if category:
+        available_workouts = list(
+            filter(lambda x: category in x["category"], available_workouts)
+        )
+    target = request.POST["search"]
+    sorted_results = sorted(
+        available_workouts,
+        key=lambda x: fuzz.token_sort_ratio(x.profile.username(), target),
+        reverse=True,
+    )
+    print(sorted_results)
+    return render(
+        request, "browse/workouts.html", {"search_results": sorted_results[:10]}
+    )
