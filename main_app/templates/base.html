@@ -32,11 +32,21 @@
                     <ul class="navbar-nav me-auto mb-2 mb-lg-0">
                         <li class="nav-item">
                             <a class="nav-link active" aria-current="page" href="{% url 'index' %}"><i
-                                class="bi bi-house"></i> Home</a>
+                                    class="bi bi-house"></i> Home</a>
                         </li>
                         <li class="nav-item">
                             <a class="nav-link" href="{% url 'new_workout' %}"><i class="bi bi-plus-circle"></i> New
                                 Workout</a>
+                        </li>
+                        <li class="nav-item dropdown">
+                            <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown"
+                                aria-expanded="false">
+                                <i class="bi bi-binoculars"></i> Browse
+                            </a>
+                            <ul class="dropdown-menu">
+                                <li><a class="dropdown-item" href="#"></a>Exercises</li>
+                                <li><a class="dropdown-item" href="#"></a>Workouts</li>
+                            </ul>
                         </li>
                     </ul>
                     <span class="navbar-text dropdown-menu-end" style="margin-right: 12px;">
@@ -67,14 +77,15 @@
                 <li class="nav-item"><a href="#" class="nav-link px-2 text-muted">FAQs</a></li>
                 <li class="nav-item"><a href="{% url 'about' %}" class="nav-link px-2 text-muted">About</a></li>
             </ul>
-            <p class="text-center text-muted">&copy; {% now "Y" %} Gorilla Gains, Inc.<br/>
+            <p class="text-center text-muted">&copy; {% now "Y" %} Gorilla Gains, Inc.<br />
                 {% if title %}
-                    {% if title == 'home' or title == 'about' %}
-                    <img src="../static/images/assets/logo-black.png" class="bi" width="24" height="24" /></p>
-                    {% else %}
-                    <img src="../../static/images/assets/logo-black.png" class="bi" width="24" height="24" /></p> 
-                    {% endif %}
-                {% endif %}             
+                {% if title == 'home' or title == 'about' %}
+                <img src="../static/images/assets/logo-black.png" class="bi" width="24" height="24" />
+            </p>
+            {% else %}
+            <img src="../../static/images/assets/logo-black.png" class="bi" width="24" height="24" /></p>
+            {% endif %}
+            {% endif %}
         </footer>
     </div>
 </body>

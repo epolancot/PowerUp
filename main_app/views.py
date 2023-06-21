@@ -360,7 +360,6 @@ def browse_workouts(request):
         key=lambda x: fuzz.token_sort_ratio(x.profile.username(), target),
         reverse=True,
     )
-    print(sorted_results)
     return render(
         request, "browse/workouts.html", {"search_results": sorted_results[:10]}
     )
