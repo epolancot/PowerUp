@@ -56,12 +56,18 @@
                 </div>
                 <div class="modal-footer">
                   <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                  <form action="/workouts/{{ workout_id }}/create_activity/{{ result.id }}/" method="POST">
+                  <!-- update favorite/unfavorite -->
+                  {% if result.id in favorite_exercises %}
+                  <form action="/workouts/{{result.id}}/unfavorite/" method="POST">
                     {% csrf_token %}
-                    <input type="hidden" id="workout_id" value="{{workout_id}}" name="workout_id">
-                    <input type="hidden" id="exercise_id" value="{{result.id}}" name="exercise_id">
-                    <button type="submit" class="btn btn-primary">Add</button>
+                    <button type="submit" class="btn btn-primary">Unfavorite</button>
                   </form>
+                  {% else %}
+                  <form action="/workouts/{{result.id}}/favorite/" method="POST">
+                    {% csrf_token %}
+                    <button type="submit" class="btn btn-primary">Favorite</button>
+                  </form>
+                  {% endif %}
                 </div>
               </div>
             </div>

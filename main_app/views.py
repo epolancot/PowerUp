@@ -275,14 +275,17 @@ def dashboard(request):
 
 @login_required
 def favorite_exercise(request, exercise_id):
-    Profile.objects.get(user=request.user).exercise.add(exercise_id)
-    return redirect("dashboard")
+    Exercise.check_new_exercise(exercise_id)
+    exercise_object = Exercise.objects.get(wger_id=exercise_id)
+    Profile.objects.get(user=request.user).favorite_exercises.add(exercise_object.id)
+    return redirect("browse_exercises")
 
 
 @login_required
 def unfavorite_exercise(request, exercise_id):
-    Profile.objects.get(user=request.user).exercise.remove(exercise_id)
-    return redirect("dashboard")
+    exercise_object = Exercise.objects.get(wger_id=exercise_id)
+    Profile.objects.get(user=request.user).favorite_exercises.remove(exercise_object.id)
+    return redirect("browse_exercises")
 
 
 @login_required
@@ -309,11 +312,17 @@ def browse_exercises(request):
             key=lambda x: fuzz.token_sort_ratio(x["name"], target),
             reverse=True,
         )
+    profile = Profile.objects.get(user=request.user)
+    favorite_exercises = [
+        exercise.wger_id for exercise in profile.favorite_exercises.all()
+    ]
+    print(favorite_exercises)
     return render(
         request,
         "browse/exercises.html",
         {
             "search_results": sorted_results[:10],
+            "favorite_exercises": favorite_exercises,
         },
     )
 

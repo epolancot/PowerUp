@@ -4,91 +4,134 @@
 <div class="row text-center">
     <h1>Workout for {{ workout.date }}</h1>
 </div>
-<hr/>
-<div class="row">
-    <div class="col">
-        <div class="container">
-            <h2>Activities</h2><br/>
-            <div class="container text-center mt-2">
-                <form action="/workouts/{{ workout.id }}/search">
-                    <button type="submit" class="btn btn-danger">Add Activity</button>
-                </form>
+<hr />
+<div class="d-flex flex-column align-items-end">
+    <div>
+        <form>
+            <div class="form-check form-switch">
+                <input class="form-check-input" type="checkbox" role="switch" id="flexSwitchCheckChecked">
+                <label class="form-check-label" for="flexSwitchCheckChecked"> Are you done with this workout? </label>
             </div>
-            {% for activity in workout.activity_set.all %}
-            <div class="card activities-card mt-3">
-                <div class="card-header text-center">
+        </form>
+    </div>
+</div>
+<div class="row">
+    <div class="container">
+        <h2>Activities</h2><br />
+        <div class="container text-center mt-2">
+            <form action="/workouts/{{ workout.id }}/search">
+                <button type="submit" class="btn btn-danger">Add Activity</button>
+            </form>
+        </div>
+        {% for activity in workout.activity_set.all %}
+        <div class="card activities-card mt-3">
+            <div class="card-header text-center">
                 <h3>{{ activity.exercise.name }}</h3>
+            </div>
+            <div class="card-content align-items-center">
+                <b>Description: </b>{{ activity.exercise.description |striptags}}<br />
+                {% if activity.exercise.category == 15 %}
+                <div>
+                    <b>Duration: </b><br />
                 </div>
-                <div class="card-content align-items-center">
-                    {% if activity.exercise.category == 15 %}
-                    <div>
-                        <b>Duration: </b><br/> 
-                    </div> 
-                    {% else %}
-                    <div>
-                        <b>Description: </b>{{ activity.exercise.description |striptags}}<br/>
-                        <b>Repetitions: </b><br/> 
-                        <b>Weight: </b>
-                    </div> 
-                    {% endif %}
+                {% else %}
+                <h4 class="mt-2">Sets</h4>
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th scope="col">Repetitions</th>
+                            <th scope="col">Weight</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for set in activity.set_set.all %}
+                        <tr>
+                            <td>{{ set.reps }}</td>
+                            <td>{{ set.weight }}</td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+                <div>
                 </div>
-                <hr/>
-                <div class="card-action d-flex justify-content-center">
-                    <button type="button" class="btn btn-danger mb-2" data-bs-toggle="modal"
+                {% endif %}
+            </div>
+            <div class="card-action d-flex justify-content-center">
+                {% if activity.exercise.category == 15 %}
+                <button type="button" class="btn btn-danger mb-2" data-bs-toggle="modal"
                     data-bs-target="#{{ activity.id }}modal">
-                    Edit
-                    </button> 
-                </div>
-                <div class="modal fade" id="{{ activity.id}}modal" tabindex="-1" aria-labelledby="{{ activity.id }}Label"
+                    Add duration
+                </button>
+                {% else %}
+                <button type="button" class="btn btn-danger mb-2" data-bs-toggle="modal"
+                    data-bs-target="#{{ activity.id }}modal">
+                    Add Set
+                </button>
+                {% endif %}
+            </div>
+            <div class="modal fade" id="{{ activity.id}}modal" tabindex="-1" aria-labelledby="{{ activity.id }}Label"
                 aria-hidden="true">
                 <div class="modal-dialog">
                     <div class="modal-content">
                         <div class="modal-header">
-                            <h5 class="modal-title" id="{{ activity.id }}Label">{{ activity.exercise.name }}</h5>
-                            <button type="button" class="btn-close" data-bs-dismiss="modal"
-                                aria-label="Close"></button>
+                            <h5 class="modal-title" id="{{ activity.id }}Label">{{ activity.exercise.name }} Sets</h5>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                         </div>
                         <div class="modal-body">
-                        <form action="/workouts/{{ workout_id }}/create_activity/{{ result.id }}/" method="POST">
-                            {% csrf_token %}
-                            <label class="form-label" for="description_input_{{ activity.id }}"><b>Description</b></label>
-                            <textarea class="w-100 mx-auto" name="description" id="description_input_{{ activity.id }}" rows="10" placeholder="What's up?">{{ activity.exercise.description |striptags}}</textarea>
-                            <br/>
-                            <label class="form-label" for="rep_input_{{ activity.id }}"><b>Repetitions: </b></label>
-                            <input type="text" name="reps" maxlength="5" id="rep_input_{{ activity.id }}" placeholder="Repetitions" value="">
-                            <br/>
-                            <label class="form-label" for="weight_input_{{ activity.id }}"><b>Weight: </b></label>
-                            <input type="text" name="weight" maxlength="5" id="weight_input_{{ activity.id }}" placeholder="Weight" value="">
-                            <div class="modal-footer">
-                                <button type="button" class="btn btn-secondary"
-                                    data-bs-dismiss="modal">Close</button>
-                                    <button type="submit" class="btn btn-danger">Update</button>
-                            </div>
-                        </form>
+                            <!----------------------------
+                                
+                                DURATION ISSUE
+                                ----------------------------->
+                            <form action="/workouts/{{ workout.id }}/create_set/{{ activity.id }}/" method="POST">
+                                {% csrf_token %}
+                                {% if activity.exercise.category == 15 %}
+                                <label class="form-label" for="rep_input_{{ activity.id }}" hidden><b>Repetitions:
+                                    </b></label>
+                                <input type="text" name="reps" maxlength="5" id="rep_input_{{ activity.id }}"
+                                    placeholder="" value="0" hidden>
+                                <br />
+                                <label class="form-label" for="weight_input_{{ activity.id }}" hidden><b>Weight:
+                                    </b></label>
+                                <input type="text" name="weight" maxlength="5" id="weight_input_{{ activity.id }}"
+                                    placeholder="" value="0" hidden>
+                                <label class="form-label" for="duration_input_{{ activity.id }}"><b>Duration:
+                                    </b></label>
+                                <input type="text" name="duration" maxlength="5" id="duration_input_{{ activity.id }}"
+                                    placeholder="" value="0">
+                                {% else %}
+                                <label class="form-label" for="rep_input_{{ activity.id }}"><b>Repetitions: </b></label>
+                                <input type="text" name="reps" maxlength="5" id="rep_input_{{ activity.id }}"
+                                    placeholder="" value="">
+                                <br />
+                                <label class="form-label" for="weight_input_{{ activity.id }}"><b>Weight: </b></label>
+                                <input type="text" name="weight" maxlength="5" id="weight_input_{{ activity.id }}"
+                                    placeholder="" value="">
+                                <label class="form-label" for="duration_input_{{ activity.id }}" hidden><b>Duration:
+                                    </b></label>
+                                <input type="text" name="duration" maxlength="5" id="duration_input_{{ activity.id }}"
+                                    placeholder="" value="0" hidden>
+                                {% endif %}
+                                <div class="modal-footer">
+                                    <button type="button" class="btn btn-secondary"
+                                        data-bs-dismiss="modal">Close</button>
+                                    <button type="submit" class="btn btn-danger">Set</button>
+                                </div>
+                            </form>
                         </div>
                     </div>
                 </div>
             </div>
-            </div>
-            {% endfor %}
         </div>
+        {% endfor %}
     </div>
-    <div class="col">
+</div>
+</div>
+{% endblock %}
+
+<!--<div class="col">
         <div class="row">
             <div class="container">
                 <h2>Target Areas</h2>
                 <img src="../../static/images/assets/default-img.gif" class="img-fluid rounded mx-auto d-block" alt="...">
             </div>
-        </div>
-        <div class="row">
-            <div class="form-check form-switch">
-                <input class="form-check-input" type="checkbox" role="switch" id="flexSwitchCheckChecked">
-                <label class="form-check-label" for="flexSwitchCheckChecked">  Are you done with this workout? </label>
-            </div>
-        </div>
-    </div>
-</div>
-{% endblock %}
-
-
-
+        </div>-->
