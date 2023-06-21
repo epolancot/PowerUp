@@ -42,7 +42,7 @@
                                     </div>
                                     <div class="modal-body">
                                         <b>Description:</b><br/>
-                                        {{ result.description }}
+                                        {{ result.description |striptags}}
                                     </div>
                                     <div class="modal-footer">
                                         <button type="button" class="btn btn-secondary"
@@ -72,37 +72,37 @@
                     </tr>
                 </thead>
                 <tbody>
-                    {% for excercise in relevant_exercises %}
+                    {% for exercise in suggested_exercises %}
                     <tr>
                         <td>
-                            <b>{{ excercise.name }}</b>
+                            <b>{{ exercise.name }}</b>
                         </td>
                         <td>
                             <button type="button" class="btn btn-primary" data-bs-toggle="modal"
-                                data-bs-target="#{{ excercise.id }}modal">
+                                data-bs-target="#{{ exercise.id }}modal">
                                 View
                             </button>
                         </td>
-                        <div class="modal fade" id="{{ excercise.id }}modal" tabindex="-1" aria-labelledby="{{ excercise.id }}Label"
+                        <div class="modal fade" id="{{ exercise.id }}modal" tabindex="-1" aria-labelledby="{{ exercise.id }}Label"
                             aria-hidden="true">
                             <div class="modal-dialog">
                                 <div class="modal-content">
                                     <div class="modal-header">
-                                        <h5 class="modal-title" id="{{ excercise.id }}Label">{{ excercise.name }}</h5>
+                                        <h5 class="modal-title" id="{{ exercise.id }}Label">{{ exercise.name }}</h5>
                                         <button type="button" class="btn-close" data-bs-dismiss="modal"
                                             aria-label="Close"></button>
                                     </div>
                                     <div class="modal-body">
                                         <b>Description:</b><br/>
-                                        {{ excercise.description |striptags }}
+                                        {{ exercise.description |striptags }}
                                     </div>
                                     <div class="modal-footer">
                                         <button type="button" class="btn btn-secondary"
                                             data-bs-dismiss="modal">Close</button>
-                                        <form action="/workouts/{{ workout_id }}/create_activity/{{ excercise.id }}/" method="POST">
+                                        <form action="/workouts/{{ workout_id }}/create_activity/{{ exercise.id }}/" method="POST">
                                                 {% csrf_token %}
                                                 <input type="hidden" id="workout_id" value="{{workout_id}}" name="workout_id">
-                                                <input type="hidden" id="exercise_id" value="{{excercise.id}}" name="exercise_id">
+                                                <input type="hidden" id="exercise_id" value="{{exercise.id}}" name="exercise_id">
                                                 <button type="submit" class="btn btn-primary">Add</button>
                                         </form>
                                     </div>

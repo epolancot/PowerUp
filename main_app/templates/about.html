@@ -1,6 +1,53 @@
 {% extends "base.html" %}
 
 {% block content %}
-<h1>About</h1>
+
+<style>
+    body {
+        font-family: Arial, sans-serif;
+        margin: 0;
+        padding: 0;
+        background-color: #f4f4f4;
+    }
+
+    .container {
+        width: 80%;
+        margin: auto;
+        overflow: hidden;
+    }
+
+    .box {
+        margin: 20px 0;
+        padding: 20px;
+        background-color: #fff;
+        color: #333;
+        border-radius: 5px;
+        box-shadow: 0px 0px 10px 0px rgba(0,0,0,0.1);
+    }
+
+    .box h2 {
+        color: #333;
+    }
+
+    .box p {
+        line-height: 1.6em;
+    }
+</style>
+<h1>About Powerup</h1>
+<div class="box">
+<h2>The Challenge:</h2>
+            <p>With an overload of information, it's often difficult to keep track of individual workouts. Existing fitness platforms offer generic plans that lack personalization and systematic organization. Current solutions fail to provide workout regimens focused on specific body areas or fitness goals.</p>
+        </div>
+        
+        <div class="box">
+            <h2>The Solution:</h2>
+            <p>We offer a unique platform that delivers personalized workout plans tailored to individual fitness levels and goals. Our innovative calendar feature allows for effortless workout tracking and scheduling. Plus, a unique feature lets you select workout focus, providing detailed insights for better performance and results.</p>
+        </div>
+
+        <div class="box">
+            <h2>Product Overview:</h2>
+            <p>Our platform boasts an intuitive user interface that makes workout planning and tracking a breeze. We've got a database with over 300 exercises, each coming with detailed descriptions & tips. Our detailed view feature lets you dive deeper into your workouts, offering insights like the muscles targeted, and your progress over time.</p>
+        </div>
+    </div>
 
 {% endblock %}

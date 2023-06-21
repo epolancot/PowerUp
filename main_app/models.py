@@ -36,6 +36,7 @@ class Workout(models.Model):
     category = ArrayField(models.IntegerField())
     profile = models.ForeignKey(Profile, on_delete=models.CASCADE)
     logged = models.BooleanField(default=False)
+    published = models.BooleanField(default=False)
 
     def get_absolute_url(self):
         return reverse("detail", kwargs={"workout_id": self.id})
