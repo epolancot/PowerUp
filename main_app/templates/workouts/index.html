@@ -3,7 +3,7 @@
 {% block content %}
 <h1>Workouts Index</h1>
 
-{% for workout  in workouts %}
+{% for workout in workouts %}
 <div class="card">
     <div class="card-content">
         <p>Date: {{ workout.date }}</p>
@@ -11,5 +11,5 @@
         <p>User: {{ workout.user }}</p>
 
     </div>
-</a>
-{% endfor %} {% endblock %}
+    </a>
+    {% endfor %} {% endblock %}

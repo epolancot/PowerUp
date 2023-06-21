@@ -85,6 +85,13 @@ def log_workout(request, workout_id):
 
 
 @login_required
+def publish_workout(request, workout_id):
+    workout = Workout.objects.get(id=workout_id)
+    workout.published = True
+    return redirect("detail", workout_id=workout.id)
+
+
+@login_required
 def copy_workout(request, workout_id):
     workout = Workout.objects.get(id=workout_id)
     print
@@ -256,3 +263,15 @@ def dashboard(request):
             "workout_message": workout_message,
         },
     )
+
+
+@login_required
+def favorite_exercise(request, exercise_id):
+    Profile.objects.get(user=request.user).exercise.add(exercise_id)
+    return redirect("dashboard")
+
+
+@login_required
+def unfavorite_exercise(request, exercise_id):
+    Profile.objects.get(user=request.user).exercise.remove(exercise_id)
+    return redirect("dashboard")
