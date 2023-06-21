@@ -1,6 +1,59 @@
 {% extends "base.html" %}
 
 {% block content %}
-<h1>About</h1>
+
+<style>
+    body {
+        font-family: Arial, sans-serif;
+        margin: 0;
+        padding: 0;
+        background-color: #f4f4f4;
+    }
+
+    .container {
+        width: 80%;
+        margin: auto;
+        overflow: hidden;
+    }
+
+    .box {
+        margin: 20px 0;
+        padding: 20px;
+        background-color: #fff;
+        color: #333;
+        border-radius: 5px;
+        box-shadow: 0px 0px 10px 0px rgba(0,0,0,0.1);
+    }
+
+    .box h2 {
+        color: #333;
+    }
+
+    .box p {
+        line-height: 1.6em;
+    }
+</style>
+<h1>About PowerUp</h1>
+<div class="box">
+<h2>What is PowerUp?</h2>
+            <p>In a world inundated with overwhelming amounts of information, keeping track of individual workouts can be a daunting task. Existing fitness platforms often offer generic plans lacking personalization and systematic organization. That's where powerUp comes in. We have created a revolutionary solution to replace your traditional paper workout journal, combining the best features from other apps with a minimalist design and a user-friendly interface. Give powerUp a try today and witness its incredible benefits firsthand. We're confident that you'll love it!</p>
+        </div>
+        
+        <div class="box">
+            <h2>Simpley POWERFUL</h2>
+            <p>While other workout apps tend to overcomplicate even the simplest tasks, we believe that a workout log should stay true to its purpose: logging your workout. At PowerUp we have prioritized simplicity by avoiding unnecessary extras that can get in the way or slow you down. Our app is designed to be quick and effortless to use in the gym, allowing you to focus on your workout without any distractions.</p>
+        </div>
+
+        <div class="box">
+            <h2>Essential Features</h2>
+            <p>At powerUp, we strongly believe in the power of simplicity without sacrificing important features. While our interface remains clean and user-friendly, we offer a wide range of functionalities that set us apart from the competition. Discover the convenience and efficiency of our app through the following key features:</p>
+            <ul>
+                <li><strong>Workouts Page:</strong> Stay on top of your progress with a dedicated page that provides a quick overview of your previous workouts. Gain valuable insights, track your improvements, and stay motivated on your fitness journey.</li>
+                <li><strong>Superset Logging:</strong> Take your workouts to the next level by easily logging supersets. Keep a record of your combined exercises, monitor your progress, and challenge yourself with these dynamic routines.</li>
+                <li><strong>Vast Exercise Library:</strong> With our extensive database of over 300 exercises, you'll have access to a variety of options to suit your fitness goals. Each exercise is accompanied by detailed descriptions and helpful tips to ensure proper form and maximize effectiveness. Dive deeper into your workouts with our detailed view feature and explore the intricacies of each exercise.</li>
+            </ul>
+        </div>
+        
+    </div>
 
 {% endblock %}
