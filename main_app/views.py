@@ -345,21 +345,22 @@ def browse_exercises(request):
 
 @login_required
 def browse_workouts(request):
-    available_workouts = Workout.objects.filter(published=True).exclude(
-        profile=Profile.objects.get(user=request.user)
-    )
     sorted_results = []
-    category = request.POST.get("category")
-    if category:
-        available_workouts = list(
-            filter(lambda x: category in x["category"], available_workouts)
+    if request.method == "POST":
+        available_workouts = Workout.objects.filter(published=True).exclude(
+            profile=Profile.objects.get(user=request.user)
         )
-    target = request.POST["search"]
-    sorted_results = sorted(
-        available_workouts,
-        key=lambda x: fuzz.token_sort_ratio(x.profile.username(), target),
-        reverse=True,
-    )
+        category = request.POST.get("category")
+        if category:
+            available_workouts = list(
+                filter(lambda x: category in x["category"], available_workouts)
+            )
+        target = request.POST.get("search")
+        sorted_results = sorted(
+            available_workouts,
+            key=lambda x: fuzz.token_sort_ratio(x.profile.username(), target),
+            reverse=True,
+        )
     return render(
         request, "browse/workouts.html", {"search_results": sorted_results[:10]}
     )

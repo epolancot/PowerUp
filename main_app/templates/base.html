@@ -44,8 +44,8 @@
                                 <i class="bi bi-binoculars"></i> Browse
                             </a>
                             <ul class="dropdown-menu">
-                                <li><a class="dropdown-item" href="#"></a>Exercises</li>
-                                <li><a class="dropdown-item" href="#"></a>Workouts</li>
+                                <li><a class="dropdown-item" href="{% url 'browse_exercises' %}"></a>Exercises</li>
+                                <li><a class="dropdown-item" href="{% url 'browse_workouts' %}"></a>Workouts</li>
                             </ul>
                         </li>
                     </ul>
@@ -57,7 +57,8 @@
                             </div>
                         </a>
                         <ul class="dropdown-menu dropdown-menu-end">
-                            <li><a class="dropdown-item" href="#" style="color:black;">View Profile</a></li>
+                            <li><a class="dropdown-item" href="{% url 'profile' %}" style="color:black;">View
+                                    Profile</a></li>
                             <li><a class="dropdown-item" href="{% url 'logout' %}" style="color:black;">Log Out</a></li>
                         </ul>
                     </span>
