@@ -1,5 +1,5 @@
 from django.shortcuts import render, redirect
-from .models import Profile, Workout, Activity, Exercise
+from .models import Profile, Workout, Activity, Exercise, Set
 from django.views.generic.edit import CreateView, UpdateView, DeleteView
 from django.views.generic import ListView, DetailView
 from django.contrib.auth import login
