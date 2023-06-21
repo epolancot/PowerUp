@@ -30,16 +30,24 @@ class Profile(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
     favorite_exercises = models.ManyToManyField(Exercise)
 
+    def username(self):
+        user = self.user
+        return f"{self.user.first_name} {self.user.last_name}"
+
 
 class Workout(models.Model):
     date = models.DateField("Workout Date")
     category = ArrayField(models.IntegerField())
+    category_text = ArrayField(models.CharField())
     profile = models.ForeignKey(Profile, on_delete=models.CASCADE)
     logged = models.BooleanField(default=False)
     published = models.BooleanField(default=False)
 
     def get_absolute_url(self):
         return reverse("detail", kwargs={"workout_id": self.id})
+
+    def display_categories(self):
+        return ", ".join(self.category_text)
 
 
 class Activity(models.Model):
