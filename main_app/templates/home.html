@@ -66,8 +66,8 @@ body {
     </div>
     <div class="login-container">
         <h1>Welcome to PowerUp</h1>
-        <button type="button" id="login-btn">Log In</button>
-        <button type="button" id="signup-btn">Sign Up</button>
+        <a href="{% url 'login' %}"><button type="button" id="login-btn">Log In</button></a>
+        <a href="{% url 'signup' %}"><button type="button" id="signup-btn">Sign Up</button></a>
     </div>
 </body>
 </html>
