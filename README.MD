@@ -22,6 +22,9 @@ Eric Polanco [GitHub](https://github.com/epolancot) | [LinkedIn](https://www.lin
 - Python
 - Django
 - Bootstrap 5
+- fuzzywuzzy
+- requests
+- python-Levenshtein
 
 ---
 
