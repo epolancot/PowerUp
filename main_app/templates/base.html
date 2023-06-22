@@ -48,12 +48,22 @@
                                 <li><a class="dropdown-item" href="{% url 'browse_workouts' %}">Workouts</a></li>
                             </ul>
                         </li>
+                        <li class="nav-item dropdown" style="float:right;">
+                            <a class="nav-link dropdown-toggle {{ menu_browse }}" href="#" role="button" data-bs-toggle="dropdown"
+                                aria-expanded="false">
+                                <i class="bi bi-binoculars"></i> Browse
+                            </a>
+                            <ul class="dropdown-menu">
+                                <li><a class="dropdown-item" href="{% url 'browse_exercises' %}">Exercises</a></li>
+                                <li><a class="dropdown-item" href="{% url 'browse_workouts' %}">Workouts</a></li>
+                            </ul>
+                        </li>
                     </ul>
                     <span class="navbar-text dropdown-menu-end" style="margin-right: 12px;">
                         <a class="nav-link" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
                             <div class="input-group">
                                 <div data-initials="{{ user.username|make_list|first|capfirst  }}"></div>
-                                <span style="margin-top: 12px">{{ user.username }}</span>
+                                <span style="margin-top: 12px">{{ user.username | capfirst }}</span>
                             </div>
                         </a>
                         <ul class="dropdown-menu dropdown-menu-end">
