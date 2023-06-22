@@ -49,6 +49,9 @@ class Workout(models.Model):
     def display_categories(self):
         return ", ".join(self.category_text)
 
+    class Meta:
+        ordering = ["-date"]
+
 
 class Activity(models.Model):
     exercise = models.ForeignKey(Exercise, on_delete=models.CASCADE)

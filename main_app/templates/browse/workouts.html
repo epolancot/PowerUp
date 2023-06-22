@@ -6,7 +6,8 @@
   <div class="d-flex align-items-center justify-content-center vh-10 flex-column gap-4">
     <form class="d-flex flex-column" action="" method="POST">
       {% csrf_token %}
-      <input class="form-control me-1 mb-2" type="search" placeholder="Search author's name" aria-label="Search" name="search" id="search">
+      <input class="form-control me-1 mb-2" type="search" placeholder="Search author's name" aria-label="Search"
+        name="search" id="search">
       <label for="category">Specify workout category</label>
       <select name="category" id="category">
         <option value="" selected></option>
@@ -38,7 +39,7 @@
         {% for result in search_results %}
         <tr>
           <td>
-            <b>{{ result.profile.name }}</b>
+            <b>{{ result.profile.username }}</b>
           </td>
           <td>
             <b>{{ result.display_categories }}</b>
