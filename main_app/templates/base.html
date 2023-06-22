@@ -31,21 +31,21 @@
                 <div class="collapse navbar-collapse" id="navbarTogglerDemo02">
                     <ul class="navbar-nav me-auto mb-2 mb-lg-0">
                         <li class="nav-item">
-                            <a class="nav-link active" aria-current="page" href="{% url 'index' %}"><i
+                            <a class="nav-link {{ menu_home }}" aria-current="page" href="{% url 'index' %}"><i
                                     class="bi bi-house"></i> Home</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" href="{% url 'new_workout' %}" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Tooltip on bottom"><i class="bi bi-plus-circle"></i> New
+                            <a class="nav-link {{ menu_new_workout }}" href="{% url 'new_workout' %}" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Tooltip on bottom"><i class="bi bi-plus-circle"></i> New
                                 Workout</a>
                         </li>
                         <li class="nav-item dropdown">
-                            <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown"
+                            <a class="nav-link dropdown-toggle {{ menu_browse }}" href="#" role="button" data-bs-toggle="dropdown"
                                 aria-expanded="false">
                                 <i class="bi bi-binoculars"></i> Browse
                             </a>
                             <ul class="dropdown-menu">
-                                <li><a class="dropdown-item" href="{% url 'browse_exercises' %}"></a>Exercises</li>
-                                <li><a class="dropdown-item" href="{% url 'browse_workouts' %}"></a>Workouts</li>
+                                <li><a class="dropdown-item" href="{% url 'browse_exercises' %}">Exercises</a></li>
+                                <li><a class="dropdown-item" href="{% url 'browse_workouts' %}">Workouts</a></li>
                             </ul>
                         </li>
                     </ul>
