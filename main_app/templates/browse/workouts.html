@@ -4,10 +4,9 @@
 <h1>Search workouts:</h1>
 <div class="container">
   <div class="d-flex align-items-center justify-content-center vh-10 flex-column gap-4">
-    <form class="d-flex" action="" method="POST">
+    <form class="d-flex flex-column" action="" method="POST">
       {% csrf_token %}
-      <input class="form-control me-1" type="search" placeholder="Search author's name" aria-label="Search"
-        name="search" id="search">
+      <input class="form-control me-1 mb-2" type="search" placeholder="Search author's name" aria-label="Search" name="search" id="search">
       <label for="category">Specify workout category</label>
       <select name="category" id="category">
         <option value="" selected></option>
@@ -20,9 +19,11 @@
         <option value="13">Shoulders</option>
         <option value="15">Cardio</option>
       </select>
-      <button class="btn btn-primary" type="submit">Search</button>
+      <button class="btn btn-primary mt-2" type="submit">Search</button>
     </form>
   </div>
+
+
   {% if search_results %}
   <div class="container">
     <table class="table table-striped" style="width:50%; margin:0 auto;">
@@ -43,7 +44,7 @@
             <b>{{ result.display_categories }}</b>
           </td>
           <td>
-            <a href="">
+            <a href="{% url 'browse_workout_detail' result.id %}">
               <button type="button" class="btn btn-primary">
                 View
               </button>

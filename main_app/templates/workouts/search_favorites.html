@@ -1,0 +1,65 @@
+{%extends "base.html"%}
+
+{% block content %}
+<div class="container">
+  {% if favorites %}
+  <div class="container">
+    <table class="table table-striped" style="width:50%; margin:0 auto;">
+      <thead>
+        <tr>
+          <th></th>
+          <th></th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for favorite in favorites %}
+        <tr>
+          <td>
+            <b>{{ favorite.name }}</b>
+          </td>
+          <td>
+            <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#{{ result.id }}modal">
+              View
+            </button>
+          </td>
+          <div class="modal fade" id="{{ result.id }}modal" tabindex="-1" aria-labelledby="{{ result.id }}Label"
+            aria-hidden="true">
+            <div class="modal-dialog">
+              <div class="modal-content">
+                <div class="modal-header">
+                  <h5 class="modal-title" id="{{ result.id }}Label">{{ favorite.name }}</h5>
+                  <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                  <b>Description:</b><br />
+                  {{ favorite.description |striptags}}
+                </div>
+                <div class="modal-footer">
+                  <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                  <form action="/workouts/{{ workout.id }}/create_activity/{{ favorite.wger_id }}/" method="POST">
+                    {% csrf_token %}
+                    <input type="hidden" id="workout_id" value="{{workout_id}}" name="workout_id">
+                    <input type="hidden" id="exercise_id" value="{{result.id}}" name="exercise_id">
+                    <button type="submit" class="btn btn-primary">Add</button>
+                  </form>
+                </div>
+              </div>
+            </div>
+          </div>
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+  {% else %}
+  <div class="container">
+    <h1>You don't have any favorites which match your current workout focus of {{ workout.display_categories }}.</h1>
+  </div>
+  {% endif %}
+</div>
+
+</table>
+
+
+
+{% endblock %}

@@ -123,12 +123,12 @@ def publish_workout(request, workout_id):
 @login_required
 def copy_workout(request, workout_id):
     workout = Workout.objects.get(id=workout_id)
-    print
     activities = Activity.objects.filter(workout=workout)
     new_workout = Workout.objects.create(
-        profile=request.user,
+        profile=Profile.objects.get(user=request.user),
         date=datetime.date.today(),
         category=workout.category,
+        category_text=workout.category_text,
     )
     new_workout.save()
     print(activities)
@@ -227,6 +227,25 @@ def search(request, workout_id):
             "search_results": sorted_results[:5],
             "error_message": error_message,
         },
+    )
+
+
+@login_required
+def search_favorites(request, workout_id):
+    profile = Profile.objects.get(user=request.user)
+    workout = Workout.objects.get(id=workout_id)
+    current_activities = [
+        activity.exercise for activity in Activity.objects.filter(workout=workout)
+    ]
+    favorite_exercises = profile.favorite_exercises.all()
+    relevant_favorites = list(
+        filter(lambda x: x.category in workout.category, favorite_exercises)
+    )
+    favorites = list(filter(lambda x: x not in current_activities, relevant_favorites))
+    return render(
+        request,
+        "workouts/search_favorites.html",
+        {"workout": workout, "favorites": favorites},
     )
 
 
@@ -364,3 +383,9 @@ def browse_workouts(request):
     return render(
         request, "browse/workouts.html", {"search_results": sorted_results[:10]}
     )
+
+
+@login_required
+def browse_workout_detail(request, workout_id):
+    workout = Workout.objects.get(id=workout_id)
+    return render(request, "browse/workout_detail.html", {"workout": workout})
