@@ -4,6 +4,10 @@ body {
     width: 100%;
 }
 
+.profile-nav-menu-portion {
+    display: none;
+}
+
 [data-initials]:before {
     background: #f60000;
     color: white;
@@ -20,8 +24,8 @@ body {
     text-align: center;
 }
 
-.profile-nav-menu-portion {
-    display: none;
+.container {
+    overflow-x: hidden !important;
 }
 
 .flex-wrapper {
@@ -36,8 +40,23 @@ body {
     margin: 0 auto;
 }
 
-.container {
-    overflow-x: hidden !important;
+.red-header-card {
+    background-color: red;
+    color: white;
+    text-align: center;
+    text-shadow: 2px 4px 4px rgba(0, 0, 0, 0.6);
+}
+
+.youtube-link > a {
+    color: #ffffff;
+    text-decoration: none;
+    text-shadow: none;
+}
+
+.youtube-link > a:hover {
+    color: #e1e1e1;
+    text-decoration: none;
+    text-shadow: 2px 4px 4px rgb(67, 63, 63);
 }
 
 .home-card {
@@ -52,6 +71,10 @@ body {
 .home-card:hover {
     transform: scale(1.05);
     box-shadow: 0 10px 20px rgba(0, 0, 0, .12), 0 4px 8px rgba(0, 0, 0, .06);
+}
+
+.workout-options-btn {
+    
 }
 
 footer {
