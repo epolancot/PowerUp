@@ -78,11 +78,14 @@ def about(request):
 @login_required
 def workouts_index(request):
     workouts = Workout.objects.filter(profile=Profile.objects.get(user=request.user))
+    open_workouts = list(filter(lambda x: not x.logged, workouts))
+    completed_workouts = list(filter(lambda x: x.logged, workouts))
     return render(
         request,
         "workouts/index.html",
         {
-            "workouts": workouts,
+            "open_workouts": open_workouts,
+            "completed_workouts": completed_workouts,
             "title": "Home",
             "menu_home": "active",
             "menu_new_workout": "",
