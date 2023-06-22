@@ -36,6 +36,10 @@ body {
     margin: 0 auto;
 }
 
+.container {
+    overflow-x: hidden !important;
+}
+
 .home-card {
     border-radius: 4px;
     background: #fff;
