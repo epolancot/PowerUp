@@ -1,74 +1,117 @@
-{%extends "base.html"%}{% block content %}
-<!-- category frequency-->
-<div>
-  <h1>Category frequency in workouts</h1>
-  <table>
-    <thead>
-      <tr>
-        <th>Arms</th>
-        <th>Abs</th>
-        <th>Back</th>
-        <th>Calves</th>
-        <th>Chest</th>
-        <th>Legs</th>
-        <th>Shoulders</th>
-        <th>Cardio</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr>
-        <td>{{ Arms }}%</td>
-        <td>{{ Abs }}%</td>
-        <td>{{ Back }}%</td>
-        <td>{{ Calves }}%</td>
-        <td>{{ Chest }}%</td>
-        <td>{{ Legs }}%</td>
-        <td>{{ Shoulders }}%</td>
-        <td>{{ Cardio }}%</td>
-      </tr>
-    </tbody>
-  </table>
+{%extends "base.html"%}
+
+{% block content %}
+<div class="container">
+  <div class="row my-3">
+    <div class="col">
+    </div>
+  </div>
+  <div class="row my-2">
+    <div class="col-md-6 py-1">
+      <div class="card h-100">
+        <div class="card-header text-center" style="background-color: red; color:white;">
+          <h4>Top Categories</h4>
+        </div>
+        <div class="card-body">
+          <!-- category frequency-->
+          <div id="piechart_3d" class="img-fluid rounded mx-auto d-block"></div>
+        </div>
+      </div>
+    </div>
+    <div class="col-md-6 py-1">
+      <div class="card h-100">
+        <div class="card-header text-center" style="background-color: red; color:white;">
+          <h4>Top Exercises</h4>
+        </div>
+        <div class="card-body">
+          <div>
+            {% if top_exercises %}
+                {% for exercise in top_exercises %}
+                <ul>
+                  <li>{{ exercise.name }}</li>
+                </ul>
+                {% endfor %}
+            {% else %}
+            <h2>You don't have any top exercises yet.</h2>
+            {% endif %}
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="row py-2">
+    <div class="col-md-4 py-1">
+      <div class="card h-100">
+        <div class="card-body">
+          <div class="text-center mt-4">
+            {% if workout_frequency %}
+            <h5>You have worked out ever<b> {{ workout_frequency }} </b><br/> 
+              days since you joined Power<span style="color:red;">UP</span>.</h5>
+            {% else %}
+            <h2>You haven't logged any workouts yet.</h2>
+            {% endif %}
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="col-md-4 py-1">
+      <div class="card h-100">
+        <div class="card-body">
+          <div class="text-center mt-4">
+            {% if workout_streak > 0 %}
+            <h5>Current Streak</h5>
+            <h1><span style="color:red;">{{ workout_streak }}</span></h1>
+            {% else %}
+            <p>{{ workout_message }}</p>
+            {% endif %}
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="col-md-4 py-1">
+      <div class="card h-100">
+        <div class="card-body">
+          <div class="text-center mt-4">
+            {% if workout_streak > 0 %}
+            <h5>{{ workout_message }}</h5>
+            {% else %}
+            <p>No workout data to display yet.</p>
+            {% endif %}
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
 </div>
 
-<!-- workout frequency -->
-<div>
-  {% if workout_frequency %}
-  <h2>You have worked out ever {{workout_frequency}} days since you joined PowerUp.</h2>
-  {% else %}
-  <h2>You haven't logged any workouts yet.</h2>
-  {% endif %}
-</div>
+<script type="text/javascript">
+  google.charts.load("current", { packages: ["corechart"] });
+  google.charts.setOnLoadCallback(drawChart);
+  function drawChart() {
+    var data = google.visualization.arrayToDataTable([
+      ['Exercise', 'Frequency'],
+      ['Abs', parseInt("{{ Abs }}")],  
+      ['Arms', parseInt("{{ Arms }}")],
+      ['Back', parseInt("{{ Back }}")],
+      ['Calves', parseInt("{{ Calves }}")],
+      ['Cardio', parseInt("{{ Cardio }}")],
+      ['Chest', parseInt("{{ Chest }}")],
+      ['Legs', parseInt("{{ Legs }}")],
+      ['Shoulders', parseInt("{{ Shoulders }}")]
+    ]);
 
-<!-- top exercises -->
-<div>
-  {% if top_exercises %}
-  <table>
-    <thead>
-      <tr>
-        <th>Top Exercises</th>
-      </tr>
-    </thead>
-    <tbody>
-      {% for exercise in top_exercises %}
-      <tr>
-        <td>{{ exercise.name }}</td>
-      </tr>
-      {% endfor %}
-    </tbody>
-  </table>
-  {% else %}
-  <h2>You don't have any top exercises.</h2>
-  {% endif %}
-</div>
+    var options = {
+      is3D: true,
+    };
 
-<!-- workout streak -->
-<div>
-  {% if workout_streak > 0 %}
-  <h2>Workout streak: {{ workout_streak }}</h2>
-  <p>{{ workout_message }}</p>
-  {% else %}
-  <p>{{ workout_message }}</p>
-  {% endif %}
-</div>
+    var chart = new google.visualization.PieChart(document.getElementById('piechart_3d'));
+    chart.draw(data, options);
+  }
 
+  window.onresize = callChart;
+
+  function callChart() {
+      drawChart()
+  }
+</script>
 {% endblock %}
