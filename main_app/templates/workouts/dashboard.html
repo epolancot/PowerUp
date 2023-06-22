@@ -2,10 +2,6 @@
 
 {% block content %}
 <div class="container">
-  <div class="row my-3">
-    <div class="col">
-    </div>
-  </div>
   <div class="row my-2">
     <div class="col-md-6 py-1">
       <div class="card h-100">
@@ -19,24 +15,22 @@
       </div>
     </div>
     <div class="col-md-6 py-1">
-      <div class="card h-100">
-        <div class="card-header text-center" style="background-color: red; color:white;">
-          <h4>Top Exercises</h4>
+        <div class="card h-100">
+            <div class="card-header text-center" style="background-color: red; color:white;">
+              <h4>Top Exercises</h4>
+            </div>
+            <div class="card-body">
+                {% if top_exercises %}
+                    {% for exercise in top_exercises %}
+                    <ul>
+                      <li>{{ exercise.name }}</li>
+                    </ul>
+                    {% endfor %}
+                {% else %}
+                <h2>You don't have any top exercises yet.</h2>
+                {% endif %}
+            </div>
         </div>
-        <div class="card-body">
-          <div>
-            {% if top_exercises %}
-                {% for exercise in top_exercises %}
-                <ul>
-                  <li>{{ exercise.name }}</li>
-                </ul>
-                {% endfor %}
-            {% else %}
-            <h2>You don't have any top exercises yet.</h2>
-            {% endif %}
-          </div>
-        </div>
-      </div>
     </div>
   </div>
   <div class="row py-2">
