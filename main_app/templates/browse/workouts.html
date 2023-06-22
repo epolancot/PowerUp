@@ -43,7 +43,7 @@
             <b>{{ result.display_categories }}</b>
           </td>
           <td>
-            <a href="">
+            <a href="{% url 'browse_workout_detail' result.id %}">
               <button type="button" class="btn btn-primary">
                 View
               </button>

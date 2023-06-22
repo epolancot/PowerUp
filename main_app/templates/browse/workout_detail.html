@@ -1,5 +1,49 @@
-{% extends "base.html" %}
+{%extends "base.html"%}
 
 {% block content %}
-
+<div class="row text-center">
+  <div class="col">
+    <h1>Workout by: {{ workout.profile.username }}</h1>
+    <h3>Focus areas: {{ workout.display_categories }}</h3>
+  </div>
+</div>
+<hr />
+<div class="row">
+  <div class="col">
+    <h2>This Workout's Activities</h2>
+  </div>
+  <div class="col d-flex align-items-end">
+    <div class="container text-center mt-2">
+      <form action="/workouts/{{workout.id}}/copy/">
+        <button type="submit" class="btn btn-dark" style="float:right"><i class="bi bi-plus-circle"></i> Copy
+          workout</button>
+      </form>
+    </div>
+  </div>
+</div>
+<div class="row">
+  <div class="container">
+    {% for activity in workout.activity_set.all %}
+    <div class="card activities-card mt-3">
+      <div class="card-header text-center">
+        <h3>{{ activity.exercise.name }}</h3>
+      </div>
+      <div class="card-content align-items-center">
+        <b>Description: </b><br />
+        <p class="card-text">
+          {{ activity.exercise.description |striptags}}
+        </p>
+        <p class="card-text text-center">
+          <a href="https://www.youtube.com/results?search_query={{ activity.exercise.name}}+exercise"
+            style="text-decoration:none;color: red;"> <b>Search on </b><i class="bi bi-youtube"></i>YouTube</a>
+        </p>
+        <br />
+        <br />
+      </div>
+      <hr />
+    </div>
+    {% endfor %}
+  </div>
+</div>
+</div>
 {% endblock %}
