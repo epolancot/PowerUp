@@ -8,7 +8,6 @@ from django.contrib.auth.decorators import login_required
 from django.contrib.auth.mixins import LoginRequiredMixin
 import requests
 from fuzzywuzzy import fuzz
-from collections import Counter
 import datetime
 import random
 
