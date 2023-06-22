@@ -7,10 +7,19 @@
     <div class="card home-card mt-2 mx-auto">
         <h5 class="card-header">{{ workout.date }}</h5>
         <div class="card-body">
+            {% if workout.activity_set.all %}
             <h5 class="card-title">This workout has {{ workout.activity_set.all | length }} activities.</h5>
+            {% else %}
+            <h5 class="card-title">This workout has no activities.</h5>
+            {% endif %}
             <p class="card-text">Targeted body parts:
-                {{ workout.category_text |slugify|capfirst }}
+                {{ workout.display_categories }}
             </p>
+            {% if not workout.logged %}
+            <p class="card-text">Workout status: Open</p>
+            {% else %}
+            <p class="card-text">Workout status: Complete</p>
+            {% endif %}
             <hr />
             <p class="text-center">Click to view</p>
         </div>
