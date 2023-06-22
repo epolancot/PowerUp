@@ -3,6 +3,15 @@
 
 <h1>Profile</h1>
 
+<div class="info-box">
+    <p>First Name: {{ user.first_name }}</p>
+</div>
+<div class="info-box">
+    <p>Last Name: {{ user.last_name }}</p>
+</div>
+<div class="info-box">
+    <p>Email: {{ user.email }}</p>
+</div>
 
 <a href="{% url 'profile_update' user.id %}">Edit</a>
 
