@@ -252,28 +252,42 @@ def search_favorites(request, workout_id):
 @login_required
 def dashboard(request):
     # focus distribution
-    all_workouts = Workout.objects.filter(user=request.user)
-    category_list = []
+    all_workouts = Workout.objects.filter(
+        profile=Profile.objects.get(user=request.user)
+    )
+    focus_distribution = []
     for workout in all_workouts:
         focus_distribution.extend(workout.category)
-    category_frequency = Counter(category_list)
-    print(category_frequency)
+    if len(all_workouts) > 0:
+        count = len(all_workouts)
+    else:
+        count = 1
+    Arms = round((focus_distribution.count(8) / count) * 100, 1)
+    Abs = round((focus_distribution.count(10) / count) * 100, 1)
+    Back = round((focus_distribution.count(12) / count) * 100, 1)
+    Calves = round((focus_distribution.count(14) / count) * 100, 1)
+    Chest = round((focus_distribution.count(11) / count) * 100, 1)
+    Legs = round((focus_distribution.count(9) / count) * 100, 1)
+    Shoulders = round((focus_distribution.count(13) / count) * 100, 1)
+    Cardio = round((focus_distribution.count(15) / count) * 100, 1)
 
     # workout frequency
     today = datetime.date.today()
     signup_date = request.user.date_joined.date()
     days_since_signup = (today - signup_date).days
-    workout_frequency = days_since_signup / length(all_workouts)
-    print(workout_frequency)
+    if all_workouts:
+        workout_frequency = round((days_since_signup + 1) / len(all_workouts))
+    else:
+        workout_frequency = None
 
     # top exercises
     workout_ids = [workout.id for workout in all_workouts]
     activity_list = Activity.objects.filter(workout__in=workout_ids)
-    exercise_list = [activity.exercise.id for exercise in activity_list]
+    exercise_list = [activity.exercise for activity in activity_list]
     top_exercises = sorted(
-        Counter(exercise_list).items(), key=lambda x: x[1], reverse=True
+        set(exercise_list), key=lambda x: exercise_list.count(x), reverse=True
     )
-    print(top_exercises)
+    print(top_exercises[:5])
 
     # current streak
     workout_streak = 0
@@ -287,23 +301,29 @@ def dashboard(request):
     if today in previous_workout_dates:
         workout_streak += 1
         workout_message = (
-            "Great job! exercise again tomorrow to keep building your streak"
+            "Great job! Workout again tomorrow to keep building your streak"
         )
     else:
         if workout_streak == 0:
             workout_message = "Log a workout today and start building your streak!"
         else:
             workout_message = "Log a workout for today and keep building your streak!"
-    print(workout_streak, workout_message)
 
     return render(
         request,
         "workouts/dashboard.html",
         {
-            "category_frequency": category_frequency,
+            "Arms": Arms,
+            "Abs": Abs,
+            "Back": Back,
+            "Calves": Calves,
+            "Chest": Chest,
+            "Legs": Legs,
+            "Shoulders": Shoulders,
+            "Cardio": Cardio,
             "workout_frequency": workout_frequency,
             "top_exercises": top_exercises,
-            "workout_workout_streak": workout_streak,
+            "workout_streak": workout_streak,
             "workout_message": workout_message,
         },
     )
