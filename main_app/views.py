@@ -49,7 +49,7 @@ def signup(request):
 
 @login_required
 def profile(request):
-    return render(request, "profile/index.html", {"user": request.user})
+    return render(request, "profile/index.html", {"user": request.user, "menu_home":"", "menu_new_workout":"", "menu_browse":""})
 
 
 class UserUpdate(LoginRequiredMixin, UpdateView):
@@ -60,14 +60,14 @@ class UserUpdate(LoginRequiredMixin, UpdateView):
 
 @login_required
 def about(request):
-    return render(request, "about.html", {"title": "About"})
+    return render(request, "about.html", {"title": "About", "menu_home":"", "menu_new_workout":"", "menu_browse":""})
 
 
 @login_required
 def workouts_index(request):
     workouts = Workout.objects.filter(profile=Profile.objects.get(user=request.user))
     return render(
-        request, "workouts/index.html", {"workouts": workouts, "title": "Home"}
+        request, "workouts/index.html", {"workouts": workouts, "title": "Home", "menu_home":"active", "menu_new_workout":"", "menu_browse":""}
     )
 
 
@@ -78,13 +78,13 @@ def workouts_detail(request, workout_id):
     if request.method == "POST":
         target = request.POST[""]
     return render(
-        request, "workouts/detail.html", {"title": "Workout", "workout": workout}
+        request, "workouts/detail.html", {"title": "Workout", "workout": workout, "menu_home":"", "menu_new_workout":"", "menu_browse":""}
     )
 
 
 @login_required
 def new_workout(request):
-    return render(request, "main_app/workout_form.html", {"title": "New Workout"})
+    return render(request, "main_app/workout_form.html", {"title": "New Workout", "menu_home":"", "menu_new_workout":"active", "menu_browse":""})
 
 
 @login_required
@@ -226,6 +226,9 @@ def search(request, workout_id):
             "suggested_exercises": suggested_exercises,
             "search_results": sorted_results[:5],
             "error_message": error_message,
+            "menu_home":"", 
+            "menu_new_workout":"", 
+            "menu_browse":""
         },
     )
 
@@ -245,7 +248,7 @@ def search_favorites(request, workout_id):
     return render(
         request,
         "workouts/search_favorites.html",
-        {"workout": workout, "favorites": favorites},
+        {"workout": workout, "favorites": favorites, "menu_home":"", "menu_new_workout":"", "menu_browse":""},
     )
 
 
@@ -325,6 +328,9 @@ def dashboard(request):
             "top_exercises": top_exercises,
             "workout_streak": workout_streak,
             "workout_message": workout_message,
+            "menu_home":"", 
+            "menu_new_workout":"", 
+            "menu_browse":""
         },
     )
 
@@ -378,6 +384,9 @@ def browse_exercises(request):
         {
             "search_results": sorted_results[:10],
             "favorite_exercises": favorite_exercises,
+            "menu_home":"", 
+            "menu_new_workout":"", 
+            "menu_browse":"active"
         },
     )
 
@@ -401,11 +410,11 @@ def browse_workouts(request):
             reverse=True,
         )
     return render(
-        request, "browse/workouts.html", {"search_results": sorted_results[:10]}
+        request, "browse/workouts.html", {"search_results": sorted_results[:10],"menu_home":"", "menu_new_workout":"", "menu_browse":"active"}
     )
 
 
 @login_required
 def browse_workout_detail(request, workout_id):
     workout = Workout.objects.get(id=workout_id)
-    return render(request, "browse/workout_detail.html", {"workout": workout})
+    return render(request, "browse/workout_detail.html", {"workout": workout, "menu_home":"", "menu_new_workout":"", "menu_browse":"active"})
