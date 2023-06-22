@@ -1,5 +1,11 @@
+html,
+body {
+    height: 100%;
+    width: 100%;
+}
+
 [data-initials]:before {
-    background: #d46e49;
+    background: #f60000;
     color: white;
     opacity: 1;
     content: attr(data-initials);
@@ -14,10 +20,8 @@
     text-align: center;
 }
 
-html,
-body {
-    height: 100%;
-    width: 100%;
+.profile-nav-menu-portion {
+    display: none;
 }
 
 .flex-wrapper {
@@ -38,7 +42,7 @@ body {
     box-shadow: 0 6px 10px rgba(0, 0, 0, .08), 0 0 6px rgba(0, 0, 0, .05);
     transition: .3s transform cubic-bezier(.155, 1.105, .295, 1.12), .3s box-shadow, .3s -webkit-transform cubic-bezier(.155, 1.105, .295, 1.12);
     cursor: pointer;
-    width: 50%;
+    width: 400px;
 }
 
 .home-card:hover {
@@ -52,19 +56,32 @@ footer {
 
 
 @media only screen and (max-width: 768px) {
+    [data-initials]:before {
+        display:none;
+    }
+
     .nav>li>a.dropdown-toggle {
         display: none;
     }
 
-.nav .dropdown-menu {
+    .nav .dropdown-menu {
         display: block;
         position: static;
         float: none;
         width: auto;
         margin-top: 0;
-        background-color: transparent;
+        background-color: transparent !important;
+        color: gray;
         border: 0;
         -webkit-box-shadow: none;
         box-shadow: none;
+    }
+
+    .profile-nav-menu-portion {
+        display: block !important;
+    }
+
+    .navbar-text {
+        display: none !important;
     }
 }

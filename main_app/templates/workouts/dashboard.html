@@ -1,5 +1,74 @@
 {%extends "base.html"%}{% block content %}
+<!-- category frequency-->
+<div>
+  <h1>Category frequency in workouts</h1>
+  <table>
+    <thead>
+      <tr>
+        <th>Arms</th>
+        <th>Abs</th>
+        <th>Back</th>
+        <th>Calves</th>
+        <th>Chest</th>
+        <th>Legs</th>
+        <th>Shoulders</th>
+        <th>Cardio</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>{{ Arms }}%</td>
+        <td>{{ Abs }}%</td>
+        <td>{{ Back }}%</td>
+        <td>{{ Calves }}%</td>
+        <td>{{ Chest }}%</td>
+        <td>{{ Legs }}%</td>
+        <td>{{ Shoulders }}%</td>
+        <td>{{ Cardio }}%</td>
+      </tr>
+    </tbody>
+  </table>
+</div>
 
+<!-- workout frequency -->
+<div>
+  {% if workout_frequency %}
+  <h2>You have worked out ever {{workout_frequency}} days since you joined PowerUp.</h2>
+  {% else %}
+  <h2>You haven't logged any workouts yet.</h2>
+  {% endif %}
+</div>
 
+<!-- top exercises -->
+<div>
+  {% if top_exercises %}
+  <table>
+    <thead>
+      <tr>
+        <th>Top Exercises</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for exercise in top_exercises %}
+      <tr>
+        <td>{{ exercise.name }}</td>
+      </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+  {% else %}
+  <h2>You don't have any top exercises.</h2>
+  {% endif %}
+</div>
+
+<!-- workout streak -->
+<div>
+  {% if workout_streak > 0 %}
+  <h2>Workout streak: {{ workout_streak }}</h2>
+  <p>{{ workout_message }}</p>
+  {% else %}
+  <p>{{ workout_message }}</p>
+  {% endif %}
+</div>
 
 {% endblock %}
