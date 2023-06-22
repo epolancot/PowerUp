@@ -1,14 +1,53 @@
 {% extends 'base.html' %}
 
 {% block content %}
+<style>
+.profile-container {
+    background-color: white;
+    padding: 20px;
+    border-radius: 5px;
+    box-shadow: 0px 0px 10px 0px rgba(0,0,0,0.1);
+    max-width: 500px;
+    width: 100%;
+}
 
+.info-box {
+    margin-bottom: 10px;
+    padding: 10px;
+    border: 1px solid #ddd;
+    border-radius: 3px;
+}
+
+.profile-edit {
+    display: inline-block;
+    background-color: #393E46; 
+    color: white; 
+    padding: 14px 20px; 
+    text-align: center; 
+    text-decoration: none; 
+    transition: 0.3s; 
+    border-radius: 4px;
+}
+
+.profile-edit:hover {
+    background-color: #D65A31;
+}
+</style>
 <h1>Update profile:</h1>
 
-<form action="" method="post">
-  {% csrf_token %}
-  <table>
-    {{ form.as_table }}
-  </table>
-  <input type="submit" value="Submit">
-</form>
+<div class="profile-container">
+  <form action="" method="post">
+    {% csrf_token %}
+    <div class="info-box">
+      <p>First Name: {{ form.first_name }}</p>
+    </div>
+    <div class="info-box">
+      <p>Last Name: {{ form.last_name }}</p>
+    </div>
+    <div class="info-box">
+      <p>Email: {{ form.email }}</p>
+    </div>
+    <input class="profile-edit" type="submit" value="Submit">
+  </form>
+</div>
 {% endblock %}
