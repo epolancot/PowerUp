@@ -231,7 +231,7 @@ def search(request, workout_id):
 
 
 @login_required
-def search_favorite(request, workout_id):
+def search_favorites(request, workout_id):
     profile = Profile.objects.get(user=request.user)
     workout = Workout.objects.get(id=workout_id)
     current_activities = [
