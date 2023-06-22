@@ -1,15 +1,32 @@
 {%extends "base.html"%}
 
 {% block content %}
-<h1>Workouts Index</h1>
-
-{% for workout in workouts %}
-<div class="card">
-    <div class="card-content">
-        <p>Date: {{ workout.date }}</p>
-        <p>category: {{ workout.category }}</p>
-        <p>User: {{ workout.user }}</p>
-
-    </div>
+{% if workouts.count %}
+    {% for workout in workouts %}
+    <a href="/workouts/{{ workout.id }}/" style="text-decoration: none;">
+        <div class="card home-card mt-2 mx-auto">
+            <h5 class="card-header">{{ workout.date }}</h5>
+            <div class="card-body">
+                <h5 class="card-title">This workout has [ COUNT ] activities.</h5>
+                <p class="card-text">Targeted body parts: 
+                    {{ workout.category_text |slugify|capfirst }}
+                </p>
+                <hr/>
+                <p class="text-center">Click to view</p>
+            </div>
+        </div>
     </a>
-    {% endfor %} {% endblock %}
+    {% endfor %}
+{% else %}
+    <div class="text-center mt-5">
+        <p>
+        <h1>Hi <b>{{ user.username | capfirst }}</b>!<br />
+            Welcome to <i>Power<span style="color:red"><b>UP</b></span></i></b></h1>
+        </p>
+        <a href="{% url 'new_workout' %}">
+            <button type="submit" class="btn btn-danger"><b>Create your first Workout</b></button>
+        </a>
+    </div>
+{% endif %}
+
+{% endblock %}
