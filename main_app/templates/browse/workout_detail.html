@@ -25,22 +25,24 @@
   <div class="container">
     {% for activity in workout.activity_set.all %}
     <div class="card activities-card mt-3">
-      <div class="card-header text-center">
+      <div class="card-header text-center dark-header">
         <h3>{{ activity.exercise.name }}</h3>
       </div>
-      <div class="card-content align-items-center">
-        <b>Description: </b><br />
-        <p class="card-text">
-          {{ activity.exercise.description |striptags}}
-        </p>
-        <p class="card-text text-center">
-          <a href="https://www.youtube.com/results?search_query={{ activity.exercise.name}}+exercise"
-            style="text-decoration:none;color: red;"> <b>Search on </b><i class="bi bi-youtube"></i>YouTube</a>
-        </p>
+      <div class="card-content">
+        <div class="text-center mt-3">
+          <b>Description </b><br />
+          <p class="card-text">
+            {{ activity.exercise.description |striptags}}
+          </p>
         <br />
+        </div>
+        <div class="text-center mb-3">
+        <a href="https://www.youtube.com/results?search_query={{ activity.exercise.name}}+exercise" style="text-decoration: none;">
+          <button class="btn red-btn">Search on <i class="bi bi-youtube"></i><b>YouTube</b></button>
+        </a>
         <br />
       </div>
-      <hr />
+      </div>
     </div>
     {% endfor %}
   </div>

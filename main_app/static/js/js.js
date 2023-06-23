@@ -26,3 +26,9 @@ const assignCategory = () => {
     }
     document.getElementById("category").value = categories.join()
 }
+
+
+function searching() {
+    const searchBtn = document.getElementById("search-btn");
+    searchBtn.innerText = "Searching..."
+}

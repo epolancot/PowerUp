@@ -1,16 +1,17 @@
 {% extends "base.html" %}
 
 {% block content %}
-<h1>Search workouts:</h1>
 <div class="container">
+  <div class="text-center mt-3 mb-3">
+    <h1>Search workouts</h1>
+  </div>
   <div class="d-flex align-items-center justify-content-center vh-10 flex-column gap-4">
     <form class="d-flex flex-column" action="" method="POST">
       {% csrf_token %}
       <input class="form-control me-1 mb-2" type="search" placeholder="Search author's name" aria-label="Search"
         name="search" id="search">
-      <label for="category">Specify workout category</label>
-      <select name="category" id="category">
-        <option value="" selected></option>
+      <select name="category" id="category" class="form-select">
+        <option value="" selected disabled>Specify workout category</option>
         <option value="8">Arms</option>
         <option value="10">Abs</option>
         <option value="12">Back</option>
@@ -20,13 +21,11 @@
         <option value="13">Shoulders</option>
         <option value="15">Cardio</option>
       </select>
-      <button class="btn red-btn mt-2" type="submit">Search</button>
+      <button class="btn red-btn mt-2" type="submit" id="search-btn" onclick="searching()">Search</button>
     </form>
   </div>
-
-
   {% if search_results %}
-  <div class="container">
+  <div>
     <table class="table table-striped" style="width:50%; margin:0 auto;">
       <thead>
         <tr>
@@ -56,6 +55,6 @@
       </tbody>
     </table>
   </div>
+  {% endif %}
 </div>
-{% endif %}
 {% endblock %}

@@ -465,7 +465,7 @@ def browse_workouts(request):
         category = request.POST.get("category")
         if category:
             available_workouts = list(
-                filter(lambda x: category in x["category"], available_workouts)
+                filter(lambda x: int(category) in x.category, available_workouts)
             )
         target = request.POST.get("search")
         sorted_results = sorted(
