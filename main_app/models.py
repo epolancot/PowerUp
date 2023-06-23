@@ -32,7 +32,7 @@ class Profile(models.Model):
 
     def username(self):
         user = self.user
-        return f"{self.user.first_name} {self.user.last_name}"
+        return f"{self.user.username}"
 
 
 class Workout(models.Model):
