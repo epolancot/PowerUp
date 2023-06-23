@@ -2,9 +2,16 @@
 
 {% block content %}
 <div class="row text-center">
+    {% if not workout.logged %}
     <div class="col">
         <h1>Workout for {{ workout.date }}</h1>
     </div>
+    {% else %}
+    <div class="col" style="color: green">
+        <h1>Workout for {{ workout.date }}<br/>
+        Complete</h1>
+    </div>
+    {% endif %}
 </div>
 <hr />
 <div class="row" id="options-div">
@@ -18,8 +25,8 @@
                     <span class="caret"></span></button>
                 <ul class="dropdown-menu dropdown-menu-dark">
                     <li><a class="dropdown-item" href="/workouts/{{ workout.id }}/search">Add Exercise</a></li>
-                    <li><a class="dropdown-item" href="/workouts/{{workout.id}}/copy/">Copy Workout</a></li>
                     <li><a class="dropdown-item" href="/workouts/{{ workout.id }}/search_favorites">Search Favorites</a></li>
+                    <li><a class="dropdown-item" href="/workouts/{{workout.id}}/copy/">Copy Workout</a></li>
                     {% if not workout.logged %}
                     <li></li><a class="dropdown-item" href="/workouts/{{ workout.id }}/log/">Mark as Complete</a></li>
                     {% else %}
@@ -47,15 +54,15 @@
                             on </b><i class="bi bi-youtube"></i>YouTube</a>
                 </div>
             </div>
-            <div class="card-content align-items-center">
-                <b>Description: </b><br />
-                <div class="card-text exercise-card-text">
+            <div class="card-content text-center">
+                <b>Description</b><br />
+                <div class="card-text">
                     {{ activity.exercise.description |striptags}}
                 </div>
                 <br />
                 <br />
                 <div class="card-action d-flex justify-content-center">
-                    <button type="button" class="btn btn-danger mb-2" data-bs-toggle="modal"
+                    <button type="button" class="btn red-btn mb-2" data-bs-toggle="modal"
                         data-bs-target="#{{ activity.id }}modal">
                         Add Set
                     </button>
@@ -78,10 +85,8 @@
                                 {{ set.duration }} minutes
                             </td>
                             <td>
-                                <a href="/workouts/{{ workout.id }}/delete_set/{{ set.id }}/">
-                                    <button class="btn btn-danger"><i class="bi bi-x-circle"></i>
-                                        Delete this Set
-                                    </button>
+                                <a href="/workouts/{{ workout.id }}/delete_set/{{ set.id }}/" style="text-decoration:none; color:red">
+                                        <i class="bi bi-x-circle"> </i>Delete
                                 </a>
                             </td>
                         </tr>
@@ -103,9 +108,9 @@
                         <tr>
                             <td>{{ set.reps }}</td>
                             <td>{{ set.weight }} pounds</td>
-                            <td><a href="/workouts/{{ workout.id }}/delete_set/{{ set.id }}/"><button
-                                        class="btn btn-danger"><i class="bi bi-x-circle"></i> Delete this
-                                        Set</button></a>
+                            <td><a href="/workouts/{{ workout.id }}/delete_set/{{ set.id }}/" style="text-decoration:none; color: red;">
+                                <i class="bi bi-x-circle"></i> Delete
+                                </a>
                             </td>
                         </tr>
                         {% endfor %}
@@ -116,20 +121,20 @@
             <hr />
             <div class="text-center mb-3">
                 <a href="/workouts/{{ workout.id }}/delete_activity/{{ activity.id }}/">
-                    <button class="btn btn-dark">Delete this Exercise</button>
+                    <button class="btn btn-danger"><i class="bi bi-x-circle"></i> Delete this Exercise</button>
                 </a>
             </div>
             <div class="modal fade" id="{{ activity.id}}modal" tabindex="-1" aria-labelledby="{{ activity.id }}Label"
                 aria-hidden="true">
                 <div class="modal-dialog">
                     <div class="modal-content">
-                        <div class="modal-header">
+                        <div class="modal-header dark-header">
                             {% if activity.exercise.category == 15 %}
                             <h5 class="modal-title" id="{{ activity.id }}Label">{{ activity.exercise.name }}</h5>
                             {% else %}
                             <h5 class="modal-title" id="{{ activity.id }}Label">{{ activity.exercise.name }} Sets</h5>
                             {% endif %}
-                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                            <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
                         </div>
                         <div class="modal-body">
                             <form action="/workouts/{{ workout.id }}/create_set/{{ activity.id }}/" method="POST">
@@ -147,7 +152,7 @@
                                 <label class="form-label" for="duration_input_{{ activity.id }}"><b>Duration:
                                     </b></label>
                                 <input type="text" name="duration" maxlength="5" id="duration_input_{{ activity.id }}"
-                                    placeholder="" value="0">
+                                    placeholder="" value="0"> minutes
                                 {% else %}
                                 <label class="form-label" for="rep_input_{{ activity.id }}"><b>Repetitions: </b></label>
                                 <input type="text" name="reps" maxlength="5" id="rep_input_{{ activity.id }}"
@@ -165,7 +170,7 @@
                                 <div class="modal-footer">
                                     <button type="button" class="btn btn-secondary"
                                         data-bs-dismiss="modal">Close</button>
-                                    <button type="submit" class="btn btn-danger">Set</button>
+                                    <button type="submit" class="btn red-btn">Set</button>
                                 </div>
                             </form>
                         </div>

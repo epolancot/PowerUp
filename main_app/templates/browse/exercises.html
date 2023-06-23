@@ -19,7 +19,7 @@
         <option value="13">Shoulders</option>
         <option value="15">Cardio</option>
       </select>
-      <button class="btn btn-danger mt-2" type="submit">Search</button>
+      <button class="btn red-btn mt-2" type="submit">Search</button>
     </form>
   </div>
   {% if search_results %}
@@ -38,7 +38,7 @@
             <b>{{ result.name }}</b>
           </td>
           <td>
-            <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#{{ result.id }}modal">
+            <button type="button" class="btn red-btn" data-bs-toggle="modal" data-bs-target="#{{ result.id }}modal">
               View
             </button>
           </td>
@@ -46,9 +46,9 @@
             aria-hidden="true">
             <div class="modal-dialog">
               <div class="modal-content">
-                <div class="modal-header">
+                <div class="modal-header dark-header">
                   <h5 class="modal-title" id="{{ result.id }}Label">{{ result.name }}</h5>
-                  <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                  <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
                   <b>Description:</b><br />
@@ -56,7 +56,6 @@
                 </div>
                 <div class="modal-footer">
                   <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                  <!-- update favorite/unfavorite -->
                   {% if result.id in favorite_exercises %}
                   <form action="/workouts/{{result.id}}/unfavorite/" method="POST">
                     {% csrf_token %}
@@ -65,7 +64,7 @@
                   {% else %}
                   <form action="/workouts/{{result.id}}/favorite/" method="POST">
                     {% csrf_token %}
-                    <button type="submit" class="btn btn-primary">Favorite</button>
+                    <button type="submit" class="btn red-btn"><i class="bi bi-star"></i> Favorite</button>
                   </form>
                   {% endif %}
                 </div>

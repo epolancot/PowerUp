@@ -16,7 +16,7 @@
                 {{ workout.display_categories }}
             </p>
             {% if not workout.logged %}
-            <p class="card-text"><b>Workout status: </b><span style="color: green"><b>Open</b></span></p>
+            <p class="card-text"><b>Workout status: </b><span style="color: red"><b>Open</b></span></p>
             {% else %}
             <p class="card-text"><b>Workout status: </b>Complete</p>
             {% endif %}
@@ -34,14 +34,16 @@
                 <th scope="col">Date</th>
                 <th scope="col">Target Areas</th>
                 <th scope="col">Exercises</th>
+                <th scope="col"></th>
             </tr>
         </thead>
         <tbody>
             {% for workout in completed_workouts %}
             <tr>
-                    <td><a href="/workouts/{{ workout.id }}/" style="text-decoration: none !important; color:red;">{{ workout.date }}</a></td>
+                    <td><a href="/workouts/{{ workout.id }}/" style="color: green;">{{ workout.date }}</a></td>
                     <td>{{ workout.display_categories }}</td>
                     <td>{{ workout.activity_set.all | length }}</td>
+                    <td><a href="/workouts/{{ workout.id }}/delete/" style="color: rgb(246, 75, 75); text-decoration: none;"><i class="bi bi-x-circle"></i> Delete</td></a>
             </tr>
             {% endfor %}
         </tbody>
