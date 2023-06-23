@@ -76,6 +76,16 @@ def about(request):
 
 
 @login_required
+def privacy(request):
+    return render(request, "privacy.html")
+
+
+@login_required
+def faq(request):
+    return render(request, "faq.html")
+
+
+@login_required
 def workouts_index(request):
     workouts = Workout.objects.filter(profile=Profile.objects.get(user=request.user))
     open_workouts = list(filter(lambda x: not x.logged, workouts))
@@ -345,7 +355,6 @@ def dashboard(request):
     top_exercises = sorted(
         set(exercise_list), key=lambda x: exercise_list.count(x), reverse=True
     )
-    print(top_exercises[:5])
 
     # current streak
     workout_streak = 0
