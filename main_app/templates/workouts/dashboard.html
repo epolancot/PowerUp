@@ -15,22 +15,22 @@
       </div>
     </div>
     <div class="col-md-6 py-1">
-        <div class="card h-100">
-            <div class="card-header text-center" style="background-color: red; color:white;">
-              <h4>Top Exercises</h4>
-            </div>
-            <div class="card-body">
-                {% if top_exercises %}
-                    {% for exercise in top_exercises %}
-                    <ul>
-                      <li>{{ exercise.name }}</li>
-                    </ul>
-                    {% endfor %}
-                {% else %}
-                <h2>You don't have any top exercises yet.</h2>
-                {% endif %}
-            </div>
+      <div class="card h-100">
+        <div class="card-header text-center" style="background-color: red; color:white;">
+          <h4>Top Exercises</h4>
         </div>
+        <div class="card-body">
+          {% if top_exercises %}
+          {% for exercise in top_exercises %}
+          <ul>
+            <li>{{ exercise.name }}</li>
+          </ul>
+          {% endfor %}
+          {% else %}
+          <h2>You don't have any top exercises yet.</h2>
+          {% endif %}
+        </div>
+      </div>
     </div>
   </div>
   <div class="row py-2">
@@ -39,7 +39,7 @@
         <div class="card-body">
           <div class="text-center mt-4">
             {% if workout_frequency %}
-            <h5>You have worked out ever<b> {{ workout_frequency }} </b><br/> 
+            <h5>You have worked out every<b> {{ workout_frequency }} </b><br />
               days since you joined Power<span style="color:red;">UP</span>.</h5>
             {% else %}
             <h2>You haven't logged any workouts yet.</h2>
@@ -84,7 +84,7 @@
   function drawChart() {
     var data = google.visualization.arrayToDataTable([
       ['Exercise', 'Frequency'],
-      ['Abs', parseInt("{{ Abs }}")],  
+      ['Abs', parseInt("{{ Abs }}")],
       ['Arms', parseInt("{{ Arms }}")],
       ['Back', parseInt("{{ Back }}")],
       ['Calves', parseInt("{{ Calves }}")],
@@ -105,7 +105,7 @@
   window.onresize = callChart;
 
   function callChart() {
-      drawChart()
+    drawChart()
   }
 </script>
 {% endblock %}
