@@ -36,6 +36,21 @@ body {
     justify-content: space-between;
 }
 
+.red-btn {
+    background: red;
+    color:white;
+}
+
+.red-btn:hover {
+    background: rgb(0, 0, 0);
+    color:white;
+}
+
+.red-btn:active {
+    background: rgb(70, 70, 70);
+    color:white;
+}
+
 .activities-card {
     margin: 0 auto;
 }
@@ -51,6 +66,11 @@ body {
     text-shadow: 2px 4px 4px rgba(0, 0, 0, 0.6);
 }
 
+.dark-header{
+    background:rgb(33,37,41);
+    color:white;
+}
+
 .youtube-link>a {
     color: #ffffff;
     text-decoration: none;
@@ -61,6 +81,10 @@ body {
     color: #e1e1e1;
     text-decoration: none;
     text-shadow: 2px 4px 4px rgb(67, 63, 63);
+}
+
+.table-set-duration {
+    width: 300px;
 }
 
 .home-card-header {
@@ -92,10 +116,6 @@ body {
 .form-switch .form-check-input:checked {
     background-color: rgb(219, 116, 116);
     border-style: none;
-}
-
-.exercise-card-text {
-    width: 95% !important;
 }
 
 footer {
