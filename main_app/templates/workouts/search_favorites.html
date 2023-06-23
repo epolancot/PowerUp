@@ -18,7 +18,7 @@
             <b>{{ favorite.name }}</b>
           </td>
           <td>
-            <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#{{ result.id }}modal">
+            <button type="button" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#{{ result.id }}modal">
               View
             </button>
           </td>
@@ -40,7 +40,7 @@
                     {% csrf_token %}
                     <input type="hidden" id="workout_id" value="{{workout_id}}" name="workout_id">
                     <input type="hidden" id="exercise_id" value="{{result.id}}" name="exercise_id">
-                    <button type="submit" class="btn btn-primary">Add</button>
+                    <button type="submit" class="btn btn-danger">Add</button>
                   </form>
                 </div>
               </div>
@@ -52,8 +52,9 @@
     </table>
   </div>
   {% else %}
-  <div class="container">
-    <h1>You don't have any favorites which match your current workout focus of {{ workout.display_categories }}.</h1>
+  <div class="container text-center mt-5">
+    <h1>You don't have any favorites which match your<br/>
+      current workout focus of {{ workout.display_categories }}.</h1>
   </div>
   {% endif %}
 </div>

@@ -7,7 +7,7 @@
             {% csrf_token %}
             <input class="form-control me-1" type="search" placeholder="Search" aria-label="Search" name="search"
                 id="search">
-            <button class="btn btn-primary" type="submit">Search</button>
+            <button class="btn btn-danger" type="submit">Search</button>
         </form>
     </div>
     {% if search_results %}
@@ -26,38 +26,38 @@
                             <b>{{ result.name }}</b>
                         </td>
                         <td>
-                            <button type="button" class="btn btn-primary" data-bs-toggle="modal"
+                            <button type="button" class="btn btn-danger" data-bs-toggle="modal"
                                 data-bs-target="#{{ result.id }}modal">
                                 View
                             </button>
                         </td>
-                        <div class="modal fade" id="{{ result.id }}modal" tabindex="-1" aria-labelledby="{{ result.id }}Label"
-                            aria-hidden="true">
-                            <div class="modal-dialog">
-                                <div class="modal-content">
-                                    <div class="modal-header">
-                                        <h5 class="modal-title" id="{{ result.id }}Label">{{ result.name }}</h5>
-                                        <button type="button" class="btn-close" data-bs-dismiss="modal"
-                                            aria-label="Close"></button>
-                                    </div>
-                                    <div class="modal-body">
-                                        <b>Description:</b><br/>
-                                        {{ result.description |striptags}}
-                                    </div>
-                                    <div class="modal-footer">
-                                        <button type="button" class="btn btn-secondary"
-                                            data-bs-dismiss="modal">Close</button>
-                                        <form action="/workouts/{{ workout_id }}/create_activity/{{ result.id }}/" method="POST">
-                                                {% csrf_token %}
-                                                <input type="hidden" id="workout_id" value="{{workout_id}}" name="workout_id">
-                                                <input type="hidden" id="exercise_id" value="{{result.id}}" name="exercise_id">
-                                                <button type="submit" class="btn btn-primary">Add</button>
-                                        </form>
-                                    </div>
-                                </div>
+                    </tr>
+                    <div class="modal fade" id="{{ result.id }}modal" tabindex="-1" aria-labelledby="{{ result.id }}Label"
+                    aria-hidden="true">
+                    <div class="modal-dialog">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h5 class="modal-title" id="{{ result.id }}Label">{{ result.name }}</h5>
+                                <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                    aria-label="Close"></button>
+                            </div>
+                            <div class="modal-body">
+                                <b>Description:</b><br/>
+                                {{ result.description |striptags}}
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-secondary"
+                                    data-bs-dismiss="modal">Close</button>
+                                <form action="/workouts/{{ workout_id }}/create_activity/{{ result.id }}/" method="POST">
+                                        {% csrf_token %}
+                                        <input type="hidden" id="workout_id" value="{{workout_id}}" name="workout_id">
+                                        <input type="hidden" id="exercise_id" value="{{result.id}}" name="exercise_id">
+                                        <button type="submit" class="btn btn-primary">Add</button>
+                                </form>
                             </div>
                         </div>
-                    </tr>
+                    </div>
+                </div>
                     {% endfor %}
                 </tbody>
             </table>
@@ -78,7 +78,7 @@
                             <b>{{ exercise.name }}</b>
                         </td>
                         <td>
-                            <button type="button" class="btn btn-primary" data-bs-toggle="modal"
+                            <button type="button" class="btn btn-danger" data-bs-toggle="modal"
                                 data-bs-target="#{{ exercise.id }}modal">
                                 View
                             </button>
@@ -103,7 +103,7 @@
                                                 {% csrf_token %}
                                                 <input type="hidden" id="workout_id" value="{{workout_id}}" name="workout_id">
                                                 <input type="hidden" id="exercise_id" value="{{exercise.id}}" name="exercise_id">
-                                                <button type="submit" class="btn btn-primary">Add</button>
+                                                <button type="submit" class="btn btn-danger">Add</button>
                                         </form>
                                     </div>
                                 </div>

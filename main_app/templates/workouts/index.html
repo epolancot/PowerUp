@@ -1,31 +1,52 @@
 {%extends "base.html"%}
 
 {% block content %}
-{% if workouts.count %}
-{% for workout in workouts %}
-<a href="/workouts/{{ workout.id }}/" style="text-decoration: none;">
+{% if open_workouts or completed_workouts %}
+{% for workout in open_workouts %}
     <div class="card home-card mt-2 mx-auto">
-        <h5 class="card-header">{{ workout.date }}</h5>
+        <a href="/workouts/{{ workout.id }}/" style="text-decoration: none !important; color: black;">
+        <h5 class="card-header home-card-header">{{ workout.date }}</h5>
         <div class="card-body">
             {% if workout.activity_set.all %}
             <h5 class="card-title">This workout has {{ workout.activity_set.all | length }} activities.</h5>
             {% else %}
             <h5 class="card-title">This workout has no activities.</h5>
             {% endif %}
-            <p class="card-text">Targeted body parts:
+            <p class="card-text"><b>Targeted body parts: </b>
                 {{ workout.display_categories }}
             </p>
             {% if not workout.logged %}
-            <p class="card-text">Workout status: Open</p>
+            <p class="card-text"><b>Workout status: </b><span style="color: green"><b>Open</b></span></p>
             {% else %}
-            <p class="card-text">Workout status: Complete</p>
+            <p class="card-text"><b>Workout status: </b>Complete</p>
             {% endif %}
             <hr />
             <p class="text-center">Click to view</p>
+            </a>
         </div>
     </div>
-</a>
 {% endfor %}
+{% if completed_workouts %}
+    <h1 class="mt-5">Completed Workouts</h1>
+    <table class="table text-center">
+        <thead>
+            <tr>
+                <th scope="col">Date</th>
+                <th scope="col">Target Areas</th>
+                <th scope="col">Exercises</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for workout in completed_workouts %}
+            <tr>
+                    <td><a href="/workouts/{{ workout.id }}/" style="text-decoration: none !important; color:red;">{{ workout.date }}</a></td>
+                    <td>{{ workout.display_categories }}</td>
+                    <td>{{ workout.activity_set.all | length }}</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+{% endif %}
 {% else %}
 <div class="text-center mt-5">
     <p>
