@@ -7,7 +7,7 @@
     </div>
 </div>
 <hr />
-<div class="row">
+<div class="row" id="options-div">
     <div class="col">
         <h2>This Workout's Exercises</h2>
     </div>
@@ -19,6 +19,7 @@
                 <ul class="dropdown-menu dropdown-menu-dark">
                     <li><a class="dropdown-item" href="/workouts/{{ workout.id }}/search">Add Exercise</a></li>
                     <li><a class="dropdown-item" href="/workouts/{{workout.id}}/copy/">Copy Workout</a></li>
+                    <li><a class="dropdown-item" href="/workouts/{{ workout.id }}/search_favorites">Search Favorites</a></li>
                     {% if not workout.logged %}
                     <li></li><a class="dropdown-item" href="/workouts/{{ workout.id }}/log/">Mark as Complete</a></li>
                     {% else %}
@@ -39,7 +40,7 @@
     <div class="container">
         {% for activity in workout.activity_set.all %}
         <div class="card activities-card mt-3">
-            <div class="card-header red-header-card">
+            <div class="card-header details-card-header">
                 <h3>{{ activity.exercise.name }}</h3>
                 <div class="youtube-link">
                     <a href="https://www.youtube.com/results?search_query={{ activity.exercise.name}}+exercise"><b>Search
@@ -178,6 +179,12 @@
 </div>
 
 <script>
+const cardsEls = document.getElementsByClassName("card");
+const optionsEl = document.getElementById("options-div")
+
+if (cardsEls.length === 0){
+    optionsEl.classList.add("vh-100");
+}
 
 </script>
 {% endblock %}

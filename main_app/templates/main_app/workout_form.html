@@ -1,72 +1,55 @@
 {%extends "base.html"%}{% block content %}
 
 <div class="container">
-  <div class="card">
-    <div class="card-header text-center">
+  <div class="card target-card mx-auto">
+    <div class="card-header home-card-header text-center">
       <h3>Select target areas</h3>
     </div>
     <div class="card-body">
       <form action="{% url 'create_workout' %}" method="POST" onsubmit="assignCategory()">
         {% csrf_token %}
-        <label for="date">Date:</label>
-        <input type="date" name="date" id="date">
+        <label for="date" hidden>Date:</label>
+        <input type="date" name="date" id="date" hidden>
         <input type="hidden" name="category" value="" id="category">
         <div class="form-check form-switch">
           <input name="abs" class="form-check-input" type="checkbox" id="abs" value="10">
-          <label class="form-check-label" for="abs">Abs</label>
+          <label class="form-check-label" for="abs"><b>Abs</b></label>
         </div>
         <div class="form-check form-switch">
           <input name="arms" class="form-check-input" type="checkbox" id="arms" value="8">
-          <label class="form-check-label" for="arms">Arms</label>
+          <label class="form-check-label" for="arms"><b>Arms</b></label>
         </div>
         <div class="form-check form-switch">
           <input name="back" class="form-check-input" type="checkbox" id="back" value="12">
-          <label class="form-check-label" for="back">Back</label>
+          <label class="form-check-label" for="back"><b>Back</b></label>
         </div>
         <div class="form-check form-switch">
           <input name="calves" class="form-check-input" type="checkbox" id="calves" value="14">
-          <label class="form-check-label" for="calves">Calves</label>
+          <label class="form-check-label" for="calves"><b>Calves</b></label>
         </div>
         <div class="form-check form-switch">
           <input name="cardio" class="form-check-input" type="checkbox" id="cardio" value="15">
-          <label class="form-check-label" for="cardio">Cardio</label>
+          <label class="form-check-label" for="cardio"><b>Cardio</b></label>
         </div>
         <div class="form-check form-switch">
           <input name="chest" class="form-check-input" type="checkbox" id="chest" value="11">
-          <label class="form-check-label" for="chest">Chest</label>
+          <label class="form-check-label" for="chest"><b>Chest</b></label>
         </div>
         <div class="form-check form-switch">
           <input name="legs" class="form-check-input" type="checkbox" id="legs" value="9">
-          <label class="form-check-label" for="legs">Legs</label>
+          <label class="form-check-label" for="legs"><b>Legs</b></label>
         </div>
         <div class="form-check form-switch">
-          <input name="shoulders" class="form-check-input" type="checkbox" id="shoulders" value="13"
-            onclick="checkShoulders()">
-          <label class="form-check-label" for="shoulders">Shoulders</label>
+          <input name="shoulders" class="form-check-input" type="checkbox" id="shoulders" value="13">
+          <label class="form-check-label" for="shoulders"><b>Shoulders</b></label>
         </div>
-        <button type="submit" class="btn btn-primary">Create workout</button>
+        <hr/>
+        <div class="text-center mt-3">
+          <button type="submit" class="btn btn-danger">Create workout</button>
+        </div>
       </form>
-    </div>
-    <div class="card-footer">
-      <img src="../../static/images/workouts/body.png" id="target-image" />
     </div>
   </div>
 </div>
-
-<script>
-  function checkShoulders() {
-    const imagePath = document.getElementById("target-image").src
-    let image = imagePath.split("/")
-    const currentImage = image[image.length - 1]
-    image.pop()
-    const path = image.join("/")
-
-    if (document.getElementById("shoulders").checked) {
-      document.getElementById("target-image").src = `${path}/body-shoulders.png`
-    } else {
-      document.getElementById("target-image").src = `${path}/body.png`
-    }
-  }
-</script>
 
 {% endblock %}
