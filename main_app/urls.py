@@ -30,6 +30,9 @@ urlpatterns = [
     ),
     path("workouts/new/", views.new_workout, name="new_workout"),
     path("workouts/create/", views.create_workout, name="create_workout"),
+    path(
+        "workouts/<int:workout_id>/delete/", views.delete_workout, name="delete_workout"
+    ),
     path("workouts/<int:workout_id>/log/", views.log_workout, name="log_workout"),
     path(
         "workouts/<int:workout_id>/publish/",

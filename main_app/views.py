@@ -146,6 +146,13 @@ def create_workout(request):
 
 
 @login_required
+def delete_workout(request, workout_id):
+    workout = Workout.objects.get(id=workout_id)
+    workout.delete()
+    return redirect("index")
+
+
+@login_required
 def log_workout(request, workout_id):
     workout = Workout.objects.get(id=workout_id)
     workout.logged = True
@@ -325,8 +332,9 @@ def dashboard(request):
     today = datetime.date.today()
     signup_date = request.user.date_joined.date()
     days_since_signup = (today - signup_date).days
+    print(all_workouts)
     if all_workouts:
-        workout_frequency = round((days_since_signup + 1) / len(all_workouts))
+        workout_frequency = round((days_since_signup + 1) / len(all_workouts), 1)
     else:
         workout_frequency = None
 
