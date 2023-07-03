@@ -4,12 +4,18 @@
 
 ### By: 
 
+- Eric Polanco [GitHub](https://github.com/epolancot) | [LinkedIn](https://www.linkedin.com/in/epolancot/)
+
+- Jorge Islas [GitHub](https://github.com/Jorgeislas97) | [LinkedIn](https://www.linkedin.com/in/jorge-islas-47136a275/) 
+
+- Adam Buffet [GitHub](https://github.com/Fizreal) | [LinkedIn](https://www.linkedin.com/in/adam-buffett/) 
+
 ---
-## The Team:
+
+## Project roles:
 
 | **Name:**            | **Role:**             |
 | -------------------- | --------------------- |
-|                      |                       |
 | **- Eric Polanco:**  | - Github Manager      |
 |                      | - Front-end Developer |
 |                      |                       |
@@ -18,12 +24,6 @@
 |                      |                       |
 | **- Adam Buffett:**  | - SCRUM Master        |
 |                      | - Back-end Developer  |
-
-Eric Polanco [GitHub](https://github.com/epolancot) | [LinkedIn](https://www.linkedin.com/in/epolancot/)
-
-Jorge Islas [GitHub](https://github.com/Jorgeislas97) | [LinkedIn](https://www.linkedin.com/in/jorge-islas-47136a275/) 
-
-Adam Buffet [GitHub](https://github.com/Fizreal) | [LinkedIn](https://www.linkedin.com/in/adam-buffett/) 
 
 ---
 
@@ -93,19 +93,38 @@ The following installations are required if you want to run the repository local
 
 ## Screenshots:
 
+**Landing page**
+
+![Imgur](https://i.imgur.com/ocG3YY0.png)
+
 **Workout history**
 
-![Imgur]()
+![Imgur](https://i.imgur.com/pDxQm9H.png)
 
 **Build your own workouts**
 
-![Imgur]()
+![Imgur](https://i.imgur.com/nXSaOXn.png)
 
 **Search from and copy published workouts**
 
-![Imgur]()
+![Imgur](https://i.imgur.com/f6FX2F8.png)
 
 **Dashboard with custom analytics on your progress**
 
-![Imgur]()
+![Imgur](https://i.imgur.com/h9VaVtw.png)
+
+---
+
+## Future Goals:
+
+#### Upload progress photos:
+
+- Users should be able to upload progress photos to track their progress
+
+- Photos will show chronologically with information on the amount of time and number of workouts completed between each photo
+
+#### Interactive workout focus selection:
+
+- Users will be able to click on an image to select the focus areas for their workout
+
 
