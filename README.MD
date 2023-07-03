@@ -49,7 +49,7 @@ We utilized a third party API from wger.com. Utilizing a database of 385+ exerci
 
 ### View the deployed page here:
 
-[Visit PowerUP]()
+[Visit PowerUP](https://powerup.fly.dev/)
 
 <table>
 <tr>
