@@ -133,18 +133,28 @@ def new_workout(request):
             "menu_home": "",
             "menu_new_workout": "active",
             "menu_browse": "",
+            "error_message": "",
         },
     )
 
 
 @login_required
 def create_workout(request):
+    if len(request.POST["category"]) == 0:
+        return render(
+            request,
+            "main_app/workout_form.html",
+            {
+                "title": "New Workout",
+                "menu_home": "",
+                "menu_new_workout": "active",
+                "menu_browse": "",
+                "error_message": "Please select at least one focus area for your workout",
+            },
+        )
     category = [int(i) for i in request.POST["category"].split(",")]
     category_text = [categories[cat] for cat in category]
-    if request.POST["date"]:
-        date = request.POST["date"]
-    else:
-        date = datetime.date.today()
+    date = datetime.date.today()
     new_workout = Workout.objects.create(
         profile=Profile.objects.get(user=request.user),
         date=date,

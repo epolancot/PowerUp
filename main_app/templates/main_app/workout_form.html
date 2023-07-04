@@ -8,6 +8,7 @@
     <div class="card-body">
       <form action="{% url 'create_workout' %}" method="POST" onsubmit="assignCategory()">
         {% csrf_token %}
+        <p>{{error_message}}</p>
         <label for="date" hidden>Date:</label>
         <input type="date" name="date" id="date" hidden>
         <input type="hidden" name="category" value="" id="category">
@@ -43,7 +44,7 @@
           <input name="shoulders" class="form-check-input" type="checkbox" id="shoulders" value="13">
           <label class="form-check-label" for="shoulders"><b>Shoulders</b></label>
         </div>
-        <hr/>
+        <hr />
         <div class="text-center mt-3">
           <button type="submit" class="btn btn-danger">Create workout</button>
         </div>
