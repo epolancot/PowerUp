@@ -8,7 +8,6 @@
     <div class="card-body">
       <form action="{% url 'create_workout' %}" method="POST" onsubmit="assignCategory()">
         {% csrf_token %}
-        <p>{{error_message}}</p>
         <label for="date" hidden>Date:</label>
         <input type="date" name="date" id="date" hidden>
         <input type="hidden" name="category" value="" id="category">
@@ -50,6 +49,9 @@
         </div>
       </form>
     </div>
+  </div>
+  <div class='form-errors text-center' style="color: red">
+    <p>{{error_message}}</p>
   </div>
 </div>
 
